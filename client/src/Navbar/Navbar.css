@@ -1,0 +1,19 @@
+.NavigationList{
+    border: 1px solid black;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+}
+
+li{
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+li:Hover{
+    background-color: lightslategray;
+}

@@ -11,13 +11,25 @@ import { body, validationResult } from "express-validator";
 import dotenv from "dotenv";
 dotenv.config();
 
+//ROUTER IMPORTS
+import productRouter from "./routes/productRouter.js";
+
 //EJS SETUP
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
 //APPLICATION MAIN
-app.get("/", (req, res) => res.send("Express Base Home Page"));
+app.use(express.static(path.join(__dirname, "../client/dist")));
+
+app.use("/products", productRouter);
+
+// Catch-all route to serve index.html for React Router (client-side)
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+});
+
+
 
 // Error catching
 app.use((err, req, res, next) => {
