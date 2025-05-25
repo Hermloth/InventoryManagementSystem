@@ -10,6 +10,9 @@ import productRouter from "./routes/productRouter.js";
 import dotenv from "dotenv";
 dotenv.config();
 
+//form and json parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 //APPLICATION MAIN
 app.use(express.static(path.join(__dirname, "../client/dist")));

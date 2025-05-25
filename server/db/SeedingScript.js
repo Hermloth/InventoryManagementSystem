@@ -9,9 +9,25 @@ const SQLProductTableGeneration =
         category VARCHAR (255),
         priceexgst INTEGER,
         color VARCHAR (255),
-        length VARCHAR (255)
+        length VARCHAR (255),
+        style VARCHAR (255),
+        reorderlevel INTEGER,
+        reorderlink VARCHAR (255)
         );`
-
+/*
+const SQLStockTableGeneration =
+    `CREATE TABLE IF NOT EXISTS stock (id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        productdescription VARCHAR (255),
+        producttitle VARCHAR (255),
+        category VARCHAR (255),
+        priceexgst INTEGER,
+        color VARCHAR (255),
+        length VARCHAR (255),
+        style VARCHAR (255),
+        reorderlevel INTEGER,
+        reorderlink VARCHAR (255)
+        );`
+*/
         async function main() {
             console.log("DB OPERATION - CREATING PRODUCTS TABLE")
             const password = encodeURIComponent(process.env.DBPASSWORD);

@@ -12,14 +12,17 @@ async function insertProduct(product) {
     try {
         var titlefield = product.producttitle;
         var descfield =  product.productdescription?? null;
-        var catfield = product.category?? null;
-        var pricefield = product.price?? null;
-        var colorfield = product.color?? null;
-        var lengthfield = product.length?? null;
-        const result = await pool.query(`INSERT INTO products (productdescription, producttitle, category, priceexgst, color, length) 
-            VALUES ($1, $2, $3, $4, $5, $6) 
+        var catfield = product.productcategory?? null;
+        var pricefield = product.productprice?? null;
+        var colorfield = product.productcolor?? null;
+        var lengthfield = product.productlength?? null;
+        var stylefield = product.productstyle?? null;
+        var reorderfield = product.productreorderlevel?? null;
+        var reorderlink = product.productreorderlink?? null;
+        const result = await pool.query(`INSERT INTO products (productdescription, producttitle, category, priceexgst, color, length, style, reorderlevel, reorderlink) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
             RETURNING *`, 
-            [descfield, titlefield, catfield, pricefield, colorfield, lengthfield]
+            [descfield, titlefield, catfield, pricefield, colorfield, lengthfield, stylefield, reorderfield, reorderlink]
         );
         console.log(result.rows[0]);
     } catch (err) {

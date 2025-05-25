@@ -9,7 +9,7 @@ async function AddNewProduct (req, res) {
     console.log(req.body)
     await dbQueries.insertProduct(req.body);
     console.log("Item Added");
-    res.redirect("/")
+    res.redirect("/products")
 }
 
 async function ListProducts (req, res) {

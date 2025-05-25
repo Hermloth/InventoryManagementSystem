@@ -1,0 +1,61 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+#root{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.ProductListPage{
+    width: 100vw;
+}
+
+.AddButton{
+    background-color: lightgreen;
+    color: black;
+    padding: 4px;
+    font-size: 0.5em;
+    border-radius: 5px;
+}
+
+.ProductList{
+    border: 1px solid orange;
+    list-style-type: none;
+    margin: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+
+}
+
+.ProductRecord{
+    list-style-type: none;
+    
+    width: 100%;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid black;
+    border-radius: 10px;
+
+}
+
+.ProductLine{
+    display: flex;
+    flex-direction: row;
+    
+    font-size: 0.7em;
+    padding-left: 4px;
+}
+
+
+

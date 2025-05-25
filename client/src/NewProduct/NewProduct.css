@@ -1,0 +1,22 @@
+#root{
+    width: 100vw;
+}
+
+.NewProductFormContainer{
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+    margin: 0 auto; /* <-- centers horizontally */
+        
+}
+
+.NewProductForm{
+    display: grid;
+    gap: 4px;
+    padding: 8px;
+}
+
+.ProductSubmitButton{
+    background-color: lightgreen;
+    margin: 4px;
+}
