@@ -6,7 +6,7 @@ function ProductList(){
 
     useEffect(() => {
     // Fetch products from the Express backend
-        fetch("/products/api")
+        fetch("/api/products")
             .then((res) => res.json())
             .then((data) => {
                 updateProducts(data);

@@ -6,30 +6,21 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 import { body, validationResult } from "express-validator";
-
-//.ENV SETUP
+import productRouter from "./routes/productRouter.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-//ROUTER IMPORTS
-import productRouter from "./routes/productRouter.js";
-
-//EJS SETUP
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
-app.use(express.urlencoded({ extended: true }));
 
 //APPLICATION MAIN
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
-app.use("/products", productRouter);
+// API routes
+app.use('/api/products', productRouter);
 
 // Catch-all route to serve index.html for React Router (client-side)
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 });
-
-
 
 // Error catching
 app.use((err, req, res, next) => {
