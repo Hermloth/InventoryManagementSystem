@@ -32,7 +32,7 @@ app.use((err, req, res, next) => {
 });
 
 //Server Details
-const PORT = (process.env.SERVER_HOST_PORT || 4000);
+const PORT = (process.env.SERVER_HOST_PORT || 4001);
 app.listen(PORT, () => {
     console.log(`Server is Running on http://localhost:${PORT}`);
 });

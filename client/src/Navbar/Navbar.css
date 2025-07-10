@@ -1,19 +1,44 @@
-.NavigationList{
-    border: 1px solid black;
-    list-style-type: none;
+:root{
+    --highlight: #ED7D3A;
+    --background: #FDFDFF;
+    --menu: #102E4A;
+    --border: #828E82;
+    --highlightbackground: #718F94;
+    --greenbutton: #82D173;
+}
+.Navbar {
+    width: 200px;
+    height: 100vh;
+    background-color: var(--menu);
+    padding-top: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.Navbar ul {
+    list-style: none;
     padding: 0;
     margin: 0;
-
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    
+    display: flex;
+    flex-direction: column;
 }
 
-li{
-    padding-top: 4px;
-    padding-bottom: 4px;
+.Navbar li {
+    margin: 10px 0;
 }
 
-li:Hover{
-    background-color: lightslategray;
+.Navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+}
+
+.Navbar a:hover {
+    background-color: var(--highlight);
+}
+
+.logoimage{
+    max-height: 150px;
 }

@@ -44,7 +44,7 @@ async function deleteProduct(productid) {
         }
 
         console.log("Deleted product:", result.rows[0]);
-        console.log(result.rows[0]);
+        return result.rows[0];
 
     } catch (err) {
         console.error("Error deleting item from database", err.message);

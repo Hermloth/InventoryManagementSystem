@@ -1,12 +1,22 @@
 #root{
     width: 100vw;
+    --highlight: #ED7D3A;
+    --background: #FDFDFF;
+    --menu: #102E4A;
+    --border: #828E82;
+    --highlightbackground: #718F94;
+    --greenbutton: #82D173;
 }
 
+body{
+    display: flex;
+    justify-content: center;
+}
 .NewProductFormContainer{
     display: flex;
     flex-direction: column;
-    max-width: 50%;
-    margin: 0 auto; /* <-- centers horizontally */
+    max-width: 300px;
+    margin: 0 auto;
         
 }
 
@@ -16,7 +26,36 @@
     padding: 8px;
 }
 
+input, select{
+border-radius: 5px;
+}
+
+.WhiteSelection{
+    background-color: white;
+}
+
+.OffWhiteSelection{
+    background-color: beige;
+}
+
+.IvorySelection{
+    background-color: bisque;
+}
+
 .ProductSubmitButton{
-    background-color: lightgreen;
+    background-color: var(--greenbutton);
     margin: 4px;
 }
+
+.backLink{
+    color: red;
+}
+
+    .form-errors {
+    background-color: #ffe0e0;
+    border: 1px solid red;
+    padding: 10px;
+    margin-bottom: 10px;
+    color: darkred;
+    font-size: 0.9em;
+    }

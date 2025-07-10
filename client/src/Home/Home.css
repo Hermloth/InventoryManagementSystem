@@ -1,0 +1,12 @@
+:root{
+    --highlight: #ED7D3A;
+    --background: #FDFDFF;
+    --menu: #102E4A;
+    --border: #828E82;
+    --highlightbackground: #718F94;
+    --greenbutton: #82D173;
+}
+
+.ContentContainer{
+    background-color: var(--background);
+}

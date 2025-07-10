@@ -1,13 +1,19 @@
 // General nav Bar for Project
+import { Link } from "react-router"
 import "./Navbar.css"
-function Navbar( ){
+import logo from "../../images/MattASOP3.png";
+
+function Navbar(){
     console.log("Navbar Loaded")
     return (
         <>
-        <ul className="NavigationList">
-            <li> Products Page </li>
-            <li> Admin Page </li>
-        </ul>
+            <nav className="Navbar">
+                <img src={logo} className="logoimage"></img>
+                <ul>
+                    <li> <Link to="/">Home</Link></li>
+                    <li> <Link to="/products">Products</Link> </li>
+                </ul>
+            </nav>
         </>
     )
 }
