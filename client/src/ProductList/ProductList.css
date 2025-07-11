@@ -95,7 +95,7 @@ body, html {
 .ProductLine{
     display: flex;
     flex-direction: row;
-    
+    justify-content: space-between;
     font-size: 0.5em;
     padding-left: 8px;
 }
@@ -111,4 +111,16 @@ body, html {
 
 
 
+.DeleteButton{
+    background-color: lightcoral;
+    color: white;
+    margin-right: 8px;
+    border: none;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-top: 2px;
+}
 
+.DeleteButton:hover{
+    background-color: red;
+}

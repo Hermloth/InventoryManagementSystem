@@ -19,10 +19,11 @@ async function insertProduct(product) {
         var stylefield = product.productstyle?? null;
         var reorderfield = product.productreorderlevel?? null;
         var reorderlink = product.productreorderlink?? null;
-        const result = await pool.query(`INSERT INTO products (productdescription, producttitle, category, priceexgst, color, length, style, reorderlevel, reorderlink) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
+        var reorderlinktwo = product.productreorderlinktwo?? null;
+        const result = await pool.query(`INSERT INTO products (productdescription, producttitle, category, priceexgst, color, length, style, reorderlevel, reorderlink, reorderlinktwo) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
             RETURNING *`, 
-            [descfield, titlefield, catfield, pricefield, colorfield, lengthfield, stylefield, reorderfield, reorderlink]
+            [descfield, titlefield, catfield, pricefield, colorfield, lengthfield, stylefield, reorderfield, reorderlink, reorderlinktwo]
         );
         console.log(result.rows[0]);
     } catch (err) {
@@ -52,10 +53,64 @@ async function deleteProduct(productid) {
     }
 }
 
+async function getProductById(id) {
+    const result = await pool.query("SELECT * FROM products WHERE id = $1", [id]);
+    return result.rows[0] || null;
+}
+
+async function updateProduct(id, data) {
+    const {
+            producttitle,
+            productdescription,
+            productcategory,
+            productprice,
+            productcolor,
+            productlength,
+            productstyle,
+            productreorderlevel,
+            productreorderlink,
+            productreorderlinktwo,
+        } = data;
+        
+        const result = await pool.query(
+            `UPDATE products SET
+                producttitle = $1,
+                productdescription = $2,
+                category = $3,
+                priceexgst = $4,
+                color = $5,
+                length = $6,
+                style = $7,
+                reorderlevel = $8,
+                reorderlink = $9,
+                reorderlinktwo = $10
+            WHERE id = $11
+            RETURNING *`,
+            [
+                producttitle,
+                productdescription,
+                productcategory,
+                productprice,
+                productcolor,
+                productlength,
+                productstyle,
+                productreorderlevel,
+                productreorderlink,
+                productreorderlinktwo,
+                id
+            ]
+    );
+
+    return result.rowCount ? result.rows[0] : null;
+}
+
+
 const dbQuery = {
     getAllProducts,
     insertProduct,
-    deleteProduct
+    deleteProduct,
+    getProductById,
+    updateProduct
 }
 
 export default dbQuery;

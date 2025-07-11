@@ -63,7 +63,8 @@ const deleteProduct = (productId) => {
                             <div className="DataWrapper">
                                 <div className="ProductLine">
                                     <strong>{product.producttitle}</strong>
-                                    <button onClick={() => setConfirmingDeleteId(product.id)}>delete</button>                                </div>
+                                    <Link to={`/products/${product.id}/edit`} className="EditButton">Edit</Link>
+                                    <button className="DeleteButton" onClick={() => setConfirmingDeleteId(product.id)}>delete</button>                                </div>
                                 <div className="ProductLine">
                                     {product.productdescription}
                                 </div>
@@ -83,6 +84,9 @@ const deleteProduct = (productId) => {
                                 <div className="ProductLine">
                                     <span><strong>Reorder Link:</strong>
                                     <a href={product.reorderlink} target="_blank" rel="noopener noreferrer"> {product.reorderlink}</a></span>
+                                    <span><strong>Reorder Link Two:</strong>
+                                    <a href={product.reorderlinktwo} target="_blank" rel="noopener noreferrer"> {product.reorderlinktwo}</a></span>
+                                
                                 </div>
                             </div>
                         </li>

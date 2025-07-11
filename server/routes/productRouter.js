@@ -10,4 +10,7 @@ productRouter.post("/new", validateProduct, productController.AddNewProduct)
 
 productRouter.delete("/:id", productController.DeleteProduct)
 
+productRouter.get("/:id", productController.GetProductById);
+productRouter.put("/:id", productController.UpdateProduct);
+
 export default productRouter;

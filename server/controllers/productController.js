@@ -23,6 +23,20 @@ async function DeleteProduct(req, res) {
     }
 }
 
+async function GetProductById(req, res) {
+    const id = parseInt(req.params.id);
+    const product = await dbQueries.getProductById(id);
+    if (!product) return res.status(404).json({ error: "Not found" });
+    res.json(product);
+}
+
+async function UpdateProduct(req, res) {
+    const id = parseInt(req.params.id);
+    const updated = await dbQueries.updateProduct(id, req.body);
+    if (!updated) return res.status(404).json({ error: "Product not found" });
+    res.json({ message: "Updated successfully" });
+}
+
 async function AddNewProduct (req, res) {
     console.log(req.body)
 
@@ -49,5 +63,7 @@ export default {
     TestReturnFunction,
     AddNewProduct,
     ListProducts,
-    DeleteProduct
+    DeleteProduct,
+    GetProductById,
+    UpdateProduct
 };
