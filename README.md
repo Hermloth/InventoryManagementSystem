@@ -1,7 +1,6 @@
 TODO:
 Delete Confirmation modal
 
-API integration
 GET STOCK
 UPDATE STOCK
 

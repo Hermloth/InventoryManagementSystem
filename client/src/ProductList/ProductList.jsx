@@ -1,18 +1,56 @@
 import { useEffect, useState } from "react";
 import "./ProductList.css";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router-dom";
 import QRCode from "react-qr-code";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ConfirmModal from "./ConfirmModal";
+import { createClient, OAuthStrategy } from '@wix/sdk';
+import * as wixStores from '@wix/stores';
+
+
+TODO: "see deincrement"
+
+const DEBUG_MODE = true;
+
+const myWixClient = createClient({
+    modules: {
+        stores: wixStores,
+    },
+    auth: OAuthStrategy({
+        clientId: import.meta.env.VITE_CLIENTID,
+
+    }),
+});
 
 function ProductList(){
+    const location = useLocation();
+
     const [products, updateProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [confirmingDeleteId, setConfirmingDeleteId] = useState(null);
 
 
+    // Delete All Products
+const deleteAllProducts = async () => {
+    if (!window.confirm("Are you sure you want to delete ALL products?")) return;
 
+    try {
+        const res = await fetch("/api/products", {
+            method: "DELETE",
+        });
+
+        if (!res.ok) throw new Error("Failed to delete all products");
+
+        updateProducts([]);
+        toast.success("All products deleted!", { position: "bottom-right" });
+    } catch (err) {
+        console.error("Delete all error:", err);
+        toast.error("Failed to delete all products", { position: "bottom-right" });
+    }
+};
+
+// Delete Specific Product
 const deleteProduct = (productId) => {
     fetch(`/api/products/${productId}`, {
         method: 'DELETE',
@@ -28,7 +66,141 @@ const deleteProduct = (productId) => {
     .catch(() => toast.error("Error deleting product", { position: "bottom-right" }));
 };
 
+// Add a Sale TODO:
+async function handleAddSale(product) {
+    const confirmSale = window.confirm(`Add a sale for "${product.producttitle}"? This will reduce its stock by 1.`);
+    if (!confirmSale) return;
+
+    try {
+        const response = await fetch("https://www.wixapis.com/stores/v2/inventoryItems/decrement", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_STOCK_KEY}`,
+        },
+        body: JSON.stringify({
+            decrementData: [
+            {
+                productId: product.wixProductId,  // You must store this when syncing TODO:
+                variantId: product.wixVariantId, // or get from Wix TODO:
+                decrementBy: 1,
+            },
+            ],
+        }),
+        });
+
+        if (!response.ok) {
+        throw new Error(`Wix API responded with ${response.status}`);
+        }
+
+        toast.success(`Stock updated for "${product.producttitle}"`);
+    } catch (err) {
+        console.error("Failed to update Wix inventory", err);
+        toast.error("Failed to update inventory");
+    }
+    }
+
+    // Sync Wix Products
+const handleSyncWixProducts = async () => {
+    try {
+        const { items } = await myWixClient.stores.products.queryProducts().find();
+
+        const wixDataRevised = []
+        for (const item of items) {
+            //console.log(item)
+            if (item.variants && item.variants.length > 1) {
+                // Multiple variants — create a record for each
+                for (const variant of item.variants) {
+                    const choices = variant.choices
+                    const choiceKey = Object.keys(choices)[0]  
+                    wixDataRevised.push({
+                        localProductTitle: item.name,
+                        productDescription: item.description,
+                        wixProductId: item._id,
+                        wixVariantId: variant._id,
+                        variantName: variant.name,
+                        priceExGst: variant.variant.priceData?.price || 0,
+                        productcolor: choices[choiceKey],
+                        productstock: variant.stock.quantity,
+                    });
+                    //console.log(item)
+                }
+            } else {
+                // No variants — single record
+                wixDataRevised.push({
+                    localProductTitle: item.name,
+                    productDescription: item.description,
+                    wixProductId: item._id,
+                    wixVariantId: null,
+                    variantName: null,
+                    priceExGst: item.priceData?.price || 0,
+                    productcolor: "No Colour",
+                    productstock: item.stock.quantity,
+                });
+            }
+        }
+        // DEPRECIATED - Remove from final cut.
+        /*
+        const wixData = items.map((item) => {
+            const variant = item.variants?.[0];
+            const colorMatch = variant?.name?.match(/"(.*?)"/);
+            const color = colorMatch ? colorMatch[1] : null;
+            console.log(item)
+            return {
+                localProductTitle: item.name,
+                productDescription: item.description,
+                wixProductId: item._id,
+                wixVariantId: variant?._id,
+                variantName: variant?.name,
+                priceExGst: item?.priceData?.price || 0,
+                productcolor: color,
+            };
+        });
+*/
+
+        const res = await fetch("/api/products/update-wix-ids", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(wixDataRevised),
+        });
+
+        if (!res.ok) throw new Error("Failed to sync Wix products to backend");
+
+        const updated = await fetch("/api/products");
+        const data = await updated.json();
+        updateProducts(data);
+
+        toast.success("Wix products synced successfully!", { position: "bottom-right" });
+    } catch (err) {
+        console.error("Frontend sync error:", err);
+        toast.error("Wix sync failed", { position: "bottom-right" });
+    }
+};
+
+useEffect(() => {
+    // Always fetch on mount
+    async function fetchProducts() {
+        setLoading(true);
+        try {
+            const res = await fetch("/api/products");
+            const data = await res.json();
+            updateProducts(data);
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    fetchProducts();
+    }, []);  
+
+/*  
     useEffect(() => {
+
+        if (location.state?.reload) {
     // Fetch products from the Express backend
         fetch("/api/products")
             .then((res) => res.json())
@@ -40,13 +212,35 @@ const deleteProduct = (productId) => {
             console.error("Error fetching products:", error);
             setLoading(false);
         });
-    }, []);
+            window.history.replaceState({}, document.title);
+    }
+    }, [location.state?.reload]);
+
+*/
+
+function handleQRNavigation(link){
+        if (link && typeof link === "string") {
+            const isAbsolute = link.startsWith("http://") || link.startsWith("https://");
+            const finalURL = isAbsolute ? link : `https://${link}`;
+            window.open(finalURL, "_blank");
+    }
+}
+
+
 
         if (loading) return <p>Loading products...</p>;
 
         return (
             <div className="ProductListPage">
                 <div className="ListTitle">Product List</div>
+                <div className="ControlPanel">
+                    <button onClick={handleSyncWixProducts} className="SyncButton">Sync Wix Products</button>
+                </div>
+                {DEBUG_MODE && (
+                    <div className="ControlPanel">
+                        <button onClick={deleteAllProducts} className="DeleteAllButton">Delete All Products (Debug)</button>
+                    </div>
+                )}
                 <hr></hr>
                 <div className="ControlPanel">
                         <Link to="/products/new" className="AddButton">Add Product</Link>
@@ -57,17 +251,20 @@ const deleteProduct = (productId) => {
                     <ul className="ProductList">
                     {products.map((product, index) => (
                         <li key={product.id || index} className="ProductRecord">
-                            <div className="QRWrapper">
+                            <div className="QRWrapper" onClick={() => handleQRNavigation(product.reorderlink)} style={{cursor: "pointer"}}>
                                 <QRCode value={product.reorderlink || "https://default.url"} size={64} />
                             </div>
                             <div className="DataWrapper">
                                 <div className="ProductLine">
-                                    <strong>{product.producttitle}</strong>
+                                    <strong 
+                                        className="ClickableTitle"
+                                        onClick={() => handleAddSale(product)}
+                                        style={{ cursor: "pointer", color: "blue" }}
+                                        >
+                                        {product.producttitle}
+                                    </strong>
                                     <Link to={`/products/${product.id}/edit`} className="EditButton">Edit</Link>
                                     <button className="DeleteButton" onClick={() => setConfirmingDeleteId(product.id)}>delete</button>                                </div>
-                                <div className="ProductLine">
-                                    {product.productdescription}
-                                </div>
                                 <div className="ProductProperties">
                                     <span><strong>Length: </strong>{product.length}</span>
                                     <span><strong>Style: </strong>{product.style}</span>
@@ -75,6 +272,7 @@ const deleteProduct = (productId) => {
                                 </div>
                                 <div className="Category">
                                     <span><strong>Category: </strong>{product.category}</span>
+                                    <span><strong>Qty In Stock:</strong>{product.stocklevel}</span>
                                 </div>
                                 <div className="PriceProperties">
                                     <span><strong>Price Ex. GST: </strong>${product.priceexgst}</span>
@@ -86,7 +284,6 @@ const deleteProduct = (productId) => {
                                     <a href={product.reorderlink} target="_blank" rel="noopener noreferrer"> {product.reorderlink}</a></span>
                                     <span><strong>Reorder Link Two:</strong>
                                     <a href={product.reorderlinktwo} target="_blank" rel="noopener noreferrer"> {product.reorderlinktwo}</a></span>
-                                
                                 </div>
                             </div>
                         </li>

@@ -13,6 +13,7 @@ const SQLProductTableGeneration =
         style VARCHAR (255),
         reorderlevel INTEGER,
         reorderlink VARCHAR (255),
+        reorderlinktwo VARCHAR(255),
         qtyonhand INTEGER,
         qtyintransit INTEGER
         );`
