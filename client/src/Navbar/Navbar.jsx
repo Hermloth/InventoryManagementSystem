@@ -4,7 +4,6 @@ import "./Navbar.css"
 import logo from "../../images/MattASOP3.png";
 
 function Navbar(){
-    console.log("Navbar Loaded")
     return (
         <>
             <nav className="Navbar">

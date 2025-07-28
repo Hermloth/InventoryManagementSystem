@@ -12,6 +12,7 @@ function NewProduct( ){
         productstyle: "",
         productreorderlevel: 0,
         productreorderlink: "",
+        productreorderlinktwo: "",
     });
 
     const [messages, setMessages] = useState([]);
@@ -107,6 +108,9 @@ const handleSubmit = async (e) => {
 
             <label for="productreorderlink">Reorder Link: </label>
             <input id="productreorderlink" name="productreorderlink" value={formData.productreorderlink} onChange={handleChange} type="text"></input>
+
+            <label for="productreorderlinktwo">Reorder Link Two: </label>
+            <input id="productreorderlinktwo" name="productreorderlinktwo" value={formData.productreorderlinktwo} onChange={handleChange} type="text"></input>
 
             <button type="submit" className="ProductSubmitButton">Add Product</button>
         </form>
