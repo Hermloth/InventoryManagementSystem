@@ -1,6 +1,6 @@
 import { body, validationResult } from "express-validator";
 import dbQueries from "../db/queries.js"
-import myWixClient from "../utils/wixClient.js";
+//import myWixClient from "../utils/wixClient.js";
 
 function TestReturnFunction (req, res) {
     res.send("Test Return")

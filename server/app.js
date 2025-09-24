@@ -8,17 +8,24 @@ const app = express();
 import { body, validationResult } from "express-validator";
 import productRouter from "./routes/productRouter.js";
 import dotenv from "dotenv";
+import settingsController from "./controllers/settingsController.js";
+import settingsRouter from "./routes/settingsRouter.js";
 dotenv.config();
 
 //form and json parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Pages
+app.use('/settings', settingsRouter)
+
 //APPLICATION MAIN
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
 // API routes
 app.use('/api/products', productRouter);
+
+
 
 // Catch-all route to serve index.html for React Router (client-side)
 app.get("*", (req, res) => {

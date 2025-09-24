@@ -6,14 +6,28 @@
     --highlightbackground: #718F94;
     --greenbutton: #82D173;
 }
-.Navbar {
-    width: 200px;
+.Navbar{
     height: 100vh;
     background-color: var(--menu);
-    padding-top: 20px;
+    padding-top: 4px;
+    padding-bottom: 16px;
     position: fixed;
     left: 0;
     top: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box; 
+
+}
+
+.Expanded {
+    width: 200px;
+}
+
+.Collapsed{
+    width: 64px;
 }
 
 .Navbar ul {
@@ -35,10 +49,93 @@
     display: block;
 }
 
-.Navbar a:hover {
-    background-color: var(--highlight);
+.logoimage{
+    max-height: 100px;
+    max-width: 150px;
+    align-self: center;
 }
 
-.logoimage{
-    max-height: 150px;
+.MenuIcon {
+    width: 24px;
+    height: 24px;
+    display: inline-block; 
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 8px;
+}
+
+.MenuLine{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding-left: 18px;
+}
+
+.MenuLine:hover{
+    background-color: #80808080;
+    
+}
+
+.MenuTitle{
+    font-size: 1em;
+}
+
+.NoPad{
+    padding: 0px;
+    margin: 0px;
+}
+.LowPad{
+    padding: 4px;
+    margin: 0px;
+}
+
+.MenuList li{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.MenuList {
+        flex-grow: 1;
+}
+
+.CollapseButton{
+    background-color: transparent;
+    padding: 0px;
+    border: none;
+
+
+}
+
+.CollapseButton:focus{
+        outline: none;
+}
+
+.CollapseButton img{
+    width: 18px;
+    height: 18px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.HeaderBar{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    gap: 12px;    
+    margin: 4px;
+}
+
+.Header {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: white;
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 4px;
+}
+
+.AdminNav {
+    margin-top: auto; /* pushes this ul to the bottom */
 }

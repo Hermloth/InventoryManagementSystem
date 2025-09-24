@@ -8,6 +8,7 @@ import ProductList from './ProductList/ProductList';
 import NewProduct from './NewProduct/NewProduct';
 import EditProduct from './ProductList/EditProduct';
 import Footer from './Footer/Footer';
+import Settings from './settings/settings.jsx';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
             <Route path="/products" element={<ProductList />} />
             <Route path="/products/new" element={<NewProduct />} />
             <Route path="/products/:id/edit" element={<EditProduct />} />
+            <Route path="/settings" element={<Settings />} />
       </Routes>
     </main>
   </div>

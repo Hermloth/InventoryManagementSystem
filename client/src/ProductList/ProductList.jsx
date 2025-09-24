@@ -7,8 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import ConfirmModal from "./ConfirmModal";
 import { createClient, OAuthStrategy } from '@wix/sdk';
 import * as wixStores from '@wix/stores';
-
-
+import ProductCard from "./ProductCard";
+/*
 TODO: "see deincrement"
 
 const DEBUG_MODE = true;
@@ -22,8 +22,68 @@ const myWixClient = createClient({
 
     }),
 });
+*/
 
 function ProductList(){
+// Expect to get an array of objects
+/*
+EDITABLE FIELDS
+Size
+Style
+Color
+
+ADVANCED - Material Cost (Actual)
+BASIC - Retail Price
+ADVANCED - Packaging Cost
+
+BASIC - SOH
+BASIC - SIT
+BASIC  - Reorder Level
+
+// CALCULATED FIELDS
+ADVANCED - Cost (Average -- needs stock order history table)
+BASIC - Markup (Retail - Cost AVG)
+ADVANCED - Total Sold (-- needs Sales History Table)
+
+ADVANCED - Stripe Fees (Retail Cost * 0.0175) + 0.3)
+ADVANCED - Business Registartion Calc (Business Fee in Settings / Total Units Sold)
+ADVANCED - Website Fee Calc (Business Fee in Settings / Total Units Sold)
+ADVANCED - Labour Cost (Labor Cost in Settings)
+
+ADVANCED - Admin Costs (Website Fee Calc + Business Registration Calc + Domain Fee Calc + Stripe Fee Calc + Packaging Cost)
+
+BASIC - COGS [Cost of Goods Sold] (Admin Costs + Cost Actual)
+ADVANCED - Profit / Unit (Retail Price - COGS)
+BASIC - Margin ((Retail Price - COGS) / COGS)
+
+BASIC - REORDER FLAG (TRUE IF (SOH + SIT) < Reorder Level))
+
+*/
+
+const test_cards = 5
+// make sure that number is replaced with an input object when data is received.
+return <>
+        <div>Hello World</div>
+
+            <div className="productCardContainer">
+                {Array.from({ length: test_cards }, (_, i) => (
+                    <ProductCard key={i} number={i}></ProductCard>
+                ))}            
+            </div>
+
+
+    </>
+
+
+
+
+
+
+
+
+
+    /* MAJOR REWORK START --- Multiple end comments added to fully comment out - remove if needed*/
+/*    
     const location = useLocation();
 
     const [products, updateProducts] = useState([]);
@@ -157,7 +217,7 @@ const handleSyncWixProducts = async () => {
             };
         });
 */
-
+/*
         const res = await fetch("/api/products/update-wix-ids", {
             method: "POST",
             headers: {
@@ -217,7 +277,7 @@ useEffect(() => {
     }, [location.state?.reload]);
 
 */
-
+/*
 function handleQRNavigation(link){
         if (link && typeof link === "string") {
             const isAbsolute = link.startsWith("http://") || link.startsWith("https://");
@@ -303,6 +363,8 @@ function handleQRNavigation(link){
 <ToastContainer position="bottom-right" autoClose={3000} />
             </div>
         );
+*/
+/* MAJOR REWORK END*/
 }
 
 export default ProductList;
