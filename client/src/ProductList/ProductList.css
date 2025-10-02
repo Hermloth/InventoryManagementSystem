@@ -127,15 +127,22 @@ body, html {
 
 
 .SyncButton {
-    background-color: #4caf50;
+    background-color: grey;
     color: white;
-    margin-left: 10px;
     padding: 6px 12px;
     border: none;
     cursor: pointer;
 }
-.SyncButton:hover {
+.SyncButton:hover, .NewProductButton:hover {
     background-color: #45a049;
+}
+
+.NewProductButton{
+    background-color: grey;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
 }
 
 .DeleteAllButton {
@@ -151,16 +158,26 @@ body, html {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 5px;
-
     padding:10px;
-
-
     border: 1px dashed blueviolet;
 }
 
-.ProductCard{
-    border: 1px solid red;
-    border-radius: 8px ;
-    width: 100%;
 
+.Header{
+    display: grid;
+    grid-template-columns: 8fr 4fr;
+}
+
+.PageTitle{
+    color: black;
+    align-content: center;
+    justify-self: left;
+    padding-left: 4px;
+    font-weight: 700;
+}
+
+.PageControls{
+    display: flex;
+    font-size: small;
+    gap: 4px    ;
 }

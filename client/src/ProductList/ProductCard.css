@@ -4,3 +4,10 @@
     width: 100%;
 
 }
+
+.advancedButton{
+    font-size: xx-small;
+    width: 100%;
+    background-color: white;
+    color: grey;
+}

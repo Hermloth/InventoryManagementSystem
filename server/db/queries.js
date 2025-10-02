@@ -7,25 +7,30 @@ async function getAllProducts() {
     return rows;
 }
 
+
 // INSERT a single product into the DB
 async function insertProduct(product) {
     try {
-        var titlefield = product.producttitle;
-        var descfield =  product.productdescription?? null;
-        var catfield = product.productcategory?? null;
-        var pricefield = product.productprice?? null;
-        var colorfield = product.productcolor?? null;
+        var wixidfield = null;
+        
+        var namefield = product.productname;
         var lengthfield = product.productlength?? null;
         var stylefield = product.productstyle?? null;
-        var reorderfield = product.productreorderlevel?? null;
+        var colorfield = product.productcolor?? null;
+
+        var materialcostfield = product.materialcost?? null;
+        var retailpricefield = product.retailprice?? null;
+        var sohfield = product.SOH?? null;
+        var sitfield = product.SIT?? null;
+        var reorderlevelfield = product.productreorderlevel?? null;
         var reorderlink = product.productreorderlink?? null;
         var reorderlinktwo = product.productreorderlinktwo?? null;
-        const result = await pool.query(`INSERT INTO products (productdescription, producttitle, category, priceexgst, color, length, style, reorderlevel, reorderlink, reorderlinktwo) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
+
+        const result = await pool.query(`INSERT INTO products (wix_id, product_name, size, style, color, material_cost, retail_price, SOH, SIT, reorder_level, reorder_link, reorder_link_two) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) 
             RETURNING *`, 
-            [descfield, titlefield, catfield, pricefield, colorfield, lengthfield, stylefield, reorderfield, reorderlink, reorderlinktwo]
+            [wixidfield, namefield, lengthfield, stylefield, colorfield, materialcostfield, retailpricefield, sohfield, sitfield, reorderlevelfield, reorderlink, reorderlinktwo]
         );
-        //console.log(result.rows[0]);
     } catch (err) {
         console.error("Error inserting product:", err.message);
         throw err;
@@ -196,12 +201,12 @@ async function deleteAllProducts() {
 
 const dbQuery = {
     getAllProducts,
-    insertProduct,
-    deleteProduct,
-    getProductById,
-    updateProduct,
-    upsertWixProduct,
-    deleteAllProducts 
+    insertProduct
+    //deleteProduct,
+    //getProductById,
+    //updateProduct,
+    //upsertWixProduct,
+    //deleteAllProducts 
 }
 
 export default dbQuery;

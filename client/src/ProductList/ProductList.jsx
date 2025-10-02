@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./ProductList.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import QRCode from "react-qr-code";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,8 +8,8 @@ import ConfirmModal from "./ConfirmModal";
 import { createClient, OAuthStrategy } from '@wix/sdk';
 import * as wixStores from '@wix/stores';
 import ProductCard from "./ProductCard";
-/*
-TODO: "see deincrement"
+import { useNavigate } from "react-router-dom";
+
 
 const DEBUG_MODE = true;
 
@@ -19,12 +19,97 @@ const myWixClient = createClient({
     },
     auth: OAuthStrategy({
         clientId: import.meta.env.VITE_CLIENTID,
-
     }),
 });
-*/
+
 
 function ProductList(){
+    //Navigation Helper
+    const navigate = useNavigate();
+
+    //Products Data (DB)
+    const [offlineProducts, setOfflineProducts] = useState([]);
+    const [settingsData, setSettingsData] = useState([])
+
+    //Products Data (Online)
+    const [onlineProducts, setOnlineProducts] = useState([])
+
+    //State Controllers
+    const [loading, setLoading] = useState(true);
+    const [confirmDeleteId, setConfirmDeleteId] = useState(null)
+
+    //Function for retreiving online inventory
+    const SyncOnlineProducts = async () =>  {
+        try {
+            const {items: wixProducts} = await myWixClient.stores.products.queryProducts().find()
+            const wixDataRevised = []
+            for (const item of wixProducts){
+                //IF statement handles the different object structures for products with variants vs without.
+                if (item.variants && item.variants.length > 1){
+                    for (const variant of item.variants){
+                        const choices = variant.choices
+                        const choiceKey = Object.keys(choices)[0]
+                        const submissionObject = {
+                            wixProductName: item.name,
+                            wixProductId: item._id,
+                            wixVariantId: variant._id,
+                            wixVariantName: variant.name,
+                            wixProductColour: choices[choiceKey],
+                            wixProductStock: variant.stock.quantity,
+                        }
+                        wixDataRevised.push(submissionObject);
+                    }
+                } else {
+                    const submissionObject = {
+                            wixProductName: item.name,
+                            wixProductId: item._id,
+                            wixVariantId: null,
+                            wixVariantName: null,
+                            wixProductColour: "No Colour",
+                            wixProductStock: item.stock.quantity,
+                    }
+
+                    wixDataRevised.push(submissionObject);
+                }
+            }
+            toast.success("Wix Sync Complete", {position: "bottom-right"});
+        }
+        catch (error) {
+            console.log(error);
+            toast.error("Wix Sync Failed, See error logs", {position: "bottom-right"});
+        }
+    }
+
+    useEffect(() => {
+        async function fetchProducts() {
+            try {
+                const response = await fetch('/api/products');
+                const data = await response.json();
+                setOfflineProducts(data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function fetchSettings() {
+            try{
+                const response = await fetch('/api/settings');
+                const settdata = await response.json();
+                setSettingsData(settdata);
+            } catch (error) {
+                console.error('Error fetching settings:', error);
+            }
+        }
+
+
+        fetchProducts();
+        fetchSettings();
+    }, []);
+
+
+
 // Expect to get an array of objects
 /*
 EDITABLE FIELDS
@@ -58,12 +143,32 @@ BASIC - Margin ((Retail Price - COGS) / COGS)
 
 BASIC - REORDER FLAG (TRUE IF (SOH + SIT) < Reorder Level))
 
+
+ADVANCED - WIX ID (Non-Editable)
 */
 
 const test_cards = 5
 // make sure that number is replaced with an input object when data is received.
+
+    if (loading) {
+        return <div>Loading products...</div>;
+    }
+
 return <>
-        <div>Hello World</div>
+        <div className="Header">
+            <div className="PageTitle">
+                Product List
+            </div>
+            <div className="PageControls">
+                <button onClick={SyncOnlineProducts} className="SyncButton">Sync Wix Products</button>
+                <button onClick={() => navigate("/products/new")} className="NewProductButton">Add New Product</button>
+            </div>
+        </div>
+            <div className="productCardContainer">
+                {offlineProducts.map ((product) => 
+                    <ProductCard key={product.id} product={product}></ProductCard>
+                )}            
+            </div>            
 
             <div className="productCardContainer">
                 {Array.from({ length: test_cards }, (_, i) => (
@@ -71,15 +176,8 @@ return <>
                 ))}            
             </div>
 
-
+        <ToastContainer position="bottom-right" autoClose={3000} />
     </>
-
-
-
-
-
-
-
 
 
     /* MAJOR REWORK START --- Multiple end comments added to fully comment out - remove if needed*/

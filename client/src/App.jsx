@@ -5,7 +5,7 @@ import './App.css'
 import Navbar from './Navbar/Navbar';
 import Home from './Home/Home';
 import ProductList from './ProductList/ProductList';
-import NewProduct from './NewProduct/NewProduct';
+import AddProduct from './ProductList/AddProduct';
 import EditProduct from './ProductList/EditProduct';
 import Footer from './Footer/Footer';
 import Settings from './settings/settings.jsx';
@@ -22,7 +22,7 @@ function App() {
       <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<ProductList />} />
-            <Route path="/products/new" element={<NewProduct />} />
+            <Route path="/products/new" element={<AddProduct />} />
             <Route path="/products/:id/edit" element={<EditProduct />} />
             <Route path="/settings" element={<Settings />} />
       </Routes>

@@ -6,6 +6,8 @@ const productRouter = Router()
 
 productRouter.get("/", productController.ListProducts)
 
+productRouter.post("/new", productController.AddNewProduct)
+
 //productRouter.post("/new", validateProduct, productController.AddNewProduct)
 
 //productRouter.delete("/", productController.DeleteAllProducts);

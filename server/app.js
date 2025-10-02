@@ -16,15 +16,13 @@ dotenv.config();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Pages
-app.use('/settings', settingsRouter)
 
 //APPLICATION MAIN
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
 // API routes
 app.use('/api/products', productRouter);
-
+app.use('/api/settings', settingsRouter)
 
 
 // Catch-all route to serve index.html for React Router (client-side)

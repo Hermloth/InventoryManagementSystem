@@ -3,7 +3,7 @@ import settingsController from "../controllers/settingsController.js";
 
 const settingsRouter = Router()
 
-settingsRouter.get("/settings", settingsController.TestReturnFunction)
+settingsRouter.get("/", settingsController.ListSettings)
 
 
 
