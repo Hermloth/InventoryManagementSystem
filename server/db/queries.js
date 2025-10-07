@@ -201,9 +201,9 @@ async function deleteAllProducts() {
 
 const dbQuery = {
     getAllProducts,
-    insertProduct
+    insertProduct,
     //deleteProduct,
-    //getProductById,
+    getProductById,
     //updateProduct,
     //upsertWixProduct,
     //deleteAllProducts 

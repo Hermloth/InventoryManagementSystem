@@ -13,8 +13,8 @@ productRouter.post("/new", productController.AddNewProduct)
 //productRouter.delete("/", productController.DeleteAllProducts);
 //productRouter.delete("/:id", productController.DeleteProduct)
 
-//productRouter.get("/:id", productController.GetProductById);
-//productRouter.put("/:id", productController.UpdateProduct);
+productRouter.get("/:id", productController.GetProductById);
+productRouter.put("/:id", productController.UpdateProduct);
 
 //productRouter.post("/sync-wix", productController.syncWixProductsToLocal);
 //productRouter.post("/update-wix-ids", productController.updateWixIdsFromFrontend);

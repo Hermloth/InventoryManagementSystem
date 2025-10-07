@@ -25,9 +25,22 @@ async function ListProducts (req, res) {
     console.log(products)
     res.json(products);
 }
+// BROKEN
+async function GetProductById(req, res){
+    const product = await dbQueries.getProductById(req.id);
+    res.send(product)
+    console.log("Get Call")
+}
+// BROKEN - NOT EXPORTED
+async function UpdateProduct(req, res){
+    res.send("Test Put Call")
+    console.log("Test Put")
+}
 
 export default {
     TestReturnFunction,
     AddNewProduct,
     ListProducts,
+    GetProductById,
+    UpdateProduct,
 };

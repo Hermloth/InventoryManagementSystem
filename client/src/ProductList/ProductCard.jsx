@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./ProductCard.css";
+import { useNavigate } from "react-router";
 
 // Expect to get an array of objects
 /*
@@ -41,6 +42,9 @@ ADVANCED - WIX ID (Non-Editable)
 
 // make sure to change destructuring of number once changed to a data object input
 function ProductCard({product}){
+
+    const navigate = useNavigate();
+
     const [advanced, setAdvanced] = useState(false)
 
 
