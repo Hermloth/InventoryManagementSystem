@@ -61,4 +61,18 @@ input:checked + .slider:before {
 .MainRefData{
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+}
+
+.formField{
+    margin-left: 8px;
+}
+
+.SubmitButton{
+    background-color: lightgray;
+    margin-top: 8px;
+}
+
+.SubmitButton:hover{
+    background-color: green;
 }

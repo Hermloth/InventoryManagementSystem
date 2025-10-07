@@ -95,7 +95,7 @@ function Navbar(){
                                     (<Link to="/settings">
                                                 <div className="MenuLine">
                                                     <img className="MenuIcon" src={SettingsIcon}></img>
-                                                    <p className="MenuTitle LowPad">Settings - WIP</p>
+                                                    <p className="MenuTitle LowPad">Settings</p>
                                                 </div>
                                         </Link>
                                     )}

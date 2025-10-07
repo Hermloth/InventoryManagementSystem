@@ -98,7 +98,7 @@ function ProductCard({product}){
                     <button className="advancedButton" onClick={switchAdvanced}>Advanced</button>
                     {advanced?
                         <>
-                        <div>Id: {product.id}</div>
+                        <div>Product Id: {product.id}</div>
                         <div>Test Material Cost WIP</div>
                         <div>Test Packaging Cost WIP</div>
                         <div>Test Cost - Avg WIP</div>
@@ -109,7 +109,7 @@ function ProductCard({product}){
                         <div>Test Labour Cost WIP</div>
                         <div>Test Admin Cost WIP</div>
                         <div>Test Profit / Unit WIP</div>
-                        <div>WixId {product.wix_id}</div>
+                        <div>WixId: {product.wix_id}</div>
                         <div>Reorder Link: {product.reorder_link}</div>
                         <div>Reorder Link 2: {product.reorder_link_two}</div>
                     </>

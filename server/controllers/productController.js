@@ -1,5 +1,7 @@
 import { body, validationResult } from "express-validator";
 import dbQueries from "../db/queries.js"
+import { useParams } from "react-router";
+
 //import myWixClient from "../utils/wixClient.js";
 
 function TestReturnFunction (req, res) {
@@ -22,19 +24,31 @@ async function AddNewProduct (req, res) {
 
 async function ListProducts (req, res) {
     const products = await dbQueries.getAllProducts();
-    console.log(products)
     res.json(products);
 }
-// BROKEN
+
 async function GetProductById(req, res){
-    const product = await dbQueries.getProductById(req.id);
-    res.send(product)
-    console.log("Get Call")
+    const {id} =req.params;
+    try{const product = await dbQueries.getProductById(id);
+        if(!product){
+            return res.status(404).json({message: "Product Not Found"});
+        }
+        res.json(product)
+    } catch (error){
+        console.error("Error fetching product:", error)
+        res.status(500).json({error: error.message})
+    }
 }
-// BROKEN - NOT EXPORTED
+
 async function UpdateProduct(req, res){
-    res.send("Test Put Call")
-    console.log("Test Put")
+    const {id} = req.params;
+    try{
+        await dbQueries.updateProduct(id, req.body);
+        res.send("Test Put Call")
+    } catch (error){
+        console.error("Unable to update product", error)
+        res.status(500).json({error: error.message})
+    }
 }
 
 export default {

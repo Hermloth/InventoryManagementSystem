@@ -47,38 +47,50 @@ async function getProductById(id) {
 
 // UPDATE Local Product Record
 async function updateProduct(id, data) {
-    //console.log("update called")
+    console.log("update called")
     const {
-            category,
-            color,
-            length,
-            style,
-            reorderlevel,
-            reorderlink,
-            reorderlinktwo,
+            productname,
+            productlength,
+            productstyle,
+            productcolor,
+            materialcost,
+            retailprice,
+            soh,
+            sit,
+            productreorderlevel,
+            productreorderlink,
+            productreorderlinktwo
         } = data;
 
-        //console.log(data)
+        console.log(data)
         
         const result = await pool.query(
             `UPDATE products SET
-                category = $1,
-                color = $2,
-                length = $3,
-                style = $4,
-                reorderlevel = $5,
-                reorderlink = $6,
-                reorderlinktwo = $7
-            WHERE id = $8
+                product_name = $1,
+                size = $2,
+                style = $3,
+                color = $4,
+                material_cost = $5,
+                retail_price = $6,
+                SOH = $7,
+                SIT = $8,
+                reorder_level = $9,
+                reorder_link = $10,
+                reorder_link_two = $11
+            WHERE id = $12
             RETURNING *`,
             [
-                category,
-                color,
-                length,
-                style,
-                reorderlevel,
-                reorderlink,
-                reorderlinktwo,
+                productname,
+                productlength,
+                productstyle,
+                productcolor,
+                materialcost,
+                retailprice,
+                soh,
+                sit,
+                productreorderlevel,
+                productreorderlink,
+                productreorderlinktwo,
                 id
             ]
     );
@@ -204,7 +216,7 @@ const dbQuery = {
     insertProduct,
     //deleteProduct,
     getProductById,
-    //updateProduct,
+    updateProduct,
     //upsertWixProduct,
     //deleteAllProducts 
 }
