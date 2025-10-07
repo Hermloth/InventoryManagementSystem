@@ -11,3 +11,10 @@
     background-color: white;
     color: grey;
 }
+
+.CardControl{
+    display: flex;
+    justify-content: end;
+    margin-right: 8px;
+    margin-top: 4px;
+}

@@ -128,12 +128,14 @@
 }
 
 .Header {
-    font-size: 1.1em;
+    font-size: 0.75em;
     font-weight: 600;
     color: white;
     padding: 0px;
     margin: 0px;
     margin-bottom: 4px;
+    justify-content: center;
+    
 }
 
 .AdminNav {

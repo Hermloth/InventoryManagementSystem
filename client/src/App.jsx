@@ -9,6 +9,8 @@ import AddProduct from './ProductList/AddProduct';
 import EditProduct from './ProductList/EditProduct';
 import Footer from './Footer/Footer';
 import Settings from './settings/settings.jsx';
+import SalesList from './SalesList/SalesList.jsx';
+import AddSale from './SalesList/AddSale.jsx';
 
 function App() {
 
@@ -25,6 +27,8 @@ function App() {
             <Route path="/products/new" element={<AddProduct />} />
             <Route path="/products/:id/edit" element={<EditProduct />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/sales" element={<SalesList />} />
+            <Route path="/sales/new" element={<AddSale />} />
       </Routes>
     </main>
   </div>

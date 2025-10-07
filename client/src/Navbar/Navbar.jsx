@@ -8,6 +8,7 @@ import { useState } from "react";
 import expandIcon from "./assets/expandIcon.svg"
 import collapseIcon from "./assets/collapseIcon.svg"
 import productIcon from "./assets/productIcon.svg"
+import salesIcon from "./assets/sales.svg"
 
 
 
@@ -64,6 +65,20 @@ function Navbar(){
                                                 <div className="MenuLine">
                                                     <img className="MenuIcon" src={productIcon}></img>
                                                     <p className="MenuTitle LowPad">Products</p>
+                                                </div>
+                                    </Link>
+                                    )}
+                    </li>
+                    <li className="NoPad">
+                        {collapsed? (<Link to="/sales">
+                                                <div className="MenuLine">
+                                                    <img className="MenuIcon" src={salesIcon}></img>
+                                                </div>
+                                    </Link>):
+                                    (<Link to="/sales">
+                                                <div className="MenuLine">
+                                                    <img className="MenuIcon" src={salesIcon}></img>
+                                                    <p className="MenuTitle LowPad">Sales</p>
                                                 </div>
                                     </Link>
                                     )}

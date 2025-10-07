@@ -2,11 +2,16 @@ import { Client } from "pg"
 import dotenv from "dotenv";
 dotenv.config();
 
+const SQLSalesTableDrop = 
+    `DROP TABLE IF EXISTS sales;`
+
 const SQLProductTableDrop =
     `DROP TABLE IF EXISTS products;`
 
 const SQLSettingsTableDrop = 
     `DROP TABLE IF EXISTS settings;`
+
+
 
 async function main() {
     
@@ -16,10 +21,15 @@ async function main() {
     });
     console.log('Connecting to DB')
     await client.connect();
+
+    console.log("DB OPERATION - DROPPING TABLE 'sales'")
+    await client.query(SQLSalesTableDrop);
+
     console.log("DB OPERATION - DROPPING TABLE 'products'")
     await client.query(SQLProductTableDrop);
     console.log("DB OPERATION - DROPPING TABLE 'settings'")
     await client.query(SQLSettingsTableDrop);
+
     await client.end();
     console.log("DB OPERATION COMPLETE");
 }

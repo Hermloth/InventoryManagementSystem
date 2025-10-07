@@ -6,10 +6,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 import { body, validationResult } from "express-validator";
-import productRouter from "./routes/productRouter.js";
 import dotenv from "dotenv";
-import settingsController from "./controllers/settingsController.js";
+
+import productRouter from "./routes/productRouter.js";
 import settingsRouter from "./routes/settingsRouter.js";
+import salesRouter from "./routes/salesRouter.js";
 dotenv.config();
 
 //form and json parsing
@@ -22,7 +23,8 @@ app.use(express.static(path.join(__dirname, "../client/dist")));
 
 // API routes
 app.use('/api/products', productRouter);
-app.use('/api/settings', settingsRouter)
+app.use('/api/settings', settingsRouter);
+app.use(`/api/sales`, salesRouter);
 
 
 // Catch-all route to serve index.html for React Router (client-side)
