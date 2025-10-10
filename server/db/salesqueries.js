@@ -45,11 +45,24 @@ async function deleteSale(saleId) {
     }
 }
 
+async function GetSpecificSalesData(id) {
+    try{
+        const result = await pool.query(
+            `SELECT * FROM sales WHERE product_id = $1;`, [id]
+        );
+        return result.rows;
+    } catch (error) {
+        console.error(`Error getting sales data for ${id}`, error.message)
+        throw error
+    }
+}
+
 
 const salesdbQuery = {
     getAllSales,
     insertSale,
     deleteSale,
+    GetSpecificSalesData,
 }
 
 export default salesdbQuery

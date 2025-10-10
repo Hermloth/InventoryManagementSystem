@@ -44,7 +44,6 @@ async function UpdateProduct(req, res){
     const {id} = req.params;
     try{
         await dbQueries.updateProduct(id, req.body);
-        res.send("Test Put Call")
     } catch (error){
         console.error("Unable to update product", error)
         res.status(500).json({error: error.message})

@@ -1,0 +1,15 @@
+.PageTitle{
+    color: black;
+    align-content: center;
+    justify-self: left;
+    padding-left: 4px;
+    font-weight: 700;
+}
+
+.NewpurchaseButton{
+    background-color: lightgrey;
+}
+
+.NewpurchaseButton:hover{
+    background-color: green;
+}

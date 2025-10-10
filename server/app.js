@@ -11,6 +11,7 @@ import dotenv from "dotenv";
 import productRouter from "./routes/productRouter.js";
 import settingsRouter from "./routes/settingsRouter.js";
 import salesRouter from "./routes/salesRouter.js";
+import purchasesRouter from "./routes/purchasesRouter.js"
 dotenv.config();
 
 //form and json parsing
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, "../client/dist")));
 app.use('/api/products', productRouter);
 app.use('/api/settings', settingsRouter);
 app.use(`/api/sales`, salesRouter);
+app.use('/api/purchases', purchasesRouter)
 
 
 // Catch-all route to serve index.html for React Router (client-side)

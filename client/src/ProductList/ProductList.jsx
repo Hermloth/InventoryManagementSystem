@@ -29,7 +29,8 @@ function ProductList(){
 
     //Products Data (DB)
     const [offlineProducts, setOfflineProducts] = useState([]);
-    const [settingsData, setSettingsData] = useState([])
+    const [settingsData, setSettingsData] = useState(null)
+    const [salesData, setSalesData] = useState([])
 
     //Products Data (Online)
     const [onlineProducts, setOnlineProducts] = useState([])
@@ -88,8 +89,6 @@ function ProductList(){
                 setOfflineProducts(data);
             } catch (error) {
                 console.error('Error fetching products:', error);
-            } finally {
-                setLoading(false);
             }
         }
 
@@ -103,12 +102,13 @@ function ProductList(){
             }
         }
 
+        async function fetchAllData() {
+        await Promise.all([fetchProducts(), fetchSettings()]);
+        setLoading(false); // Only set loading to false after BOTH complete
+    }
 
-        fetchProducts();
-        fetchSettings();
+    fetchAllData();
     }, []);
-
-
 
 // Expect to get an array of objects
 /*
@@ -150,9 +150,9 @@ ADVANCED - WIX ID (Non-Editable)
 const test_cards = 5
 // make sure that number is replaced with an input object when data is received.
 
-    if (loading) {
-        return <div>Loading products...</div>;
-    }
+if (loading || !settingsData) {
+    return <div>Loading products...</div>;
+}
 
 return <>
         <div className="Header">
@@ -166,9 +166,15 @@ return <>
         </div>
             <div className="productCardContainer">
                 {offlineProducts.map ((product) => 
-                    <ProductCard key={product.id} product={product}></ProductCard>
+                    <ProductCard key={product.id} product={product} settings={settingsData}></ProductCard>
                 )}            
             </div>            
+
+        <ToastContainer position="bottom-right" autoClose={3000} />
+    </>
+
+// Test Cards
+/*
 
             <div className="productCardContainer">
                 {Array.from({ length: test_cards }, (_, i) => (
@@ -176,9 +182,7 @@ return <>
                 ))}            
             </div>
 
-        <ToastContainer position="bottom-right" autoClose={3000} />
-    </>
-
+*/ 
 
     /* MAJOR REWORK START --- Multiple end comments added to fully comment out - remove if needed*/
 /*    

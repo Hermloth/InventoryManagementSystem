@@ -9,9 +9,7 @@ import expandIcon from "./assets/expandIcon.svg"
 import collapseIcon from "./assets/collapseIcon.svg"
 import productIcon from "./assets/productIcon.svg"
 import salesIcon from "./assets/sales.svg"
-
-
-
+import purchaseIcon from "./assets/purchase.svg"
 
 function Navbar(){
     const [collapsed, setCollapsed] = useState(false);
@@ -83,6 +81,20 @@ function Navbar(){
                                     </Link>
                                     )}
                     </li>
+                    <li className="NoPad">
+                        {collapsed? (<Link to="/purchases">
+                                        <div className="MenuLine">
+                                            <img className="MenuIcon" src={purchaseIcon}></img>
+                                        </div>
+                                    </Link>):
+                                    (<Link to="/purchases">
+                                                <div className="MenuLine">
+                                                    <img className="MenuIcon" src={purchaseIcon}></img>
+                                                    <p className="MenuTitle LowPad">Purchases</p>
+                                                </div>
+                                        </Link>
+                                    )}
+                    </li>
                 </ul>
 
                 <ul className="AdminNav">
@@ -101,7 +113,6 @@ function Navbar(){
                                     )}
                     </li>
                 </ul>
-
 
                 
             </nav>
