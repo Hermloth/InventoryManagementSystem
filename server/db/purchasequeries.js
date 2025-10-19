@@ -9,19 +9,16 @@ async function getAllPurchases() {
 // INSERT a single sale into the DB
 async function insertPurchase(purchase) {
     try {
-        /*
-        product_id,
-        purchase_amount,
-        purchase_qty
-        */
         var productID = purchase.product_id;
         var purchaseAmount = purchase.purchase_amount?? null;
+        var unitAmount = purchase.unit_amount?? null;
         var purchaseQty = purchase.purchase_qty?? null;
 
-        const result = await pool.query(`INSERT INTO purchases (product_id, purchase_amount, purchase_qty) 
-            VALUES ($1, $2, $3) 
+
+        const result = await pool.query(`INSERT INTO purchases (product_id, purchase_amount, unit_amount, purchase_qty) 
+            VALUES ($1, $2, $3, $4) 
             RETURNING *`, 
-            [productID, purchaseAmount, purchaseQty]
+            [productID, purchaseAmount, unitAmount, purchaseQty]
         );
 
     } catch (err) {

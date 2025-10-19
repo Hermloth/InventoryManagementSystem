@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, "../client/dist")));
 app.use('/api/products', productRouter);
 app.use('/api/settings', settingsRouter);
 app.use(`/api/sales`, salesRouter);
-app.use('/api/purchases', purchasesRouter)
+app.use('/api/purchases', purchasesRouter);
 
 
 // Catch-all route to serve index.html for React Router (client-side)

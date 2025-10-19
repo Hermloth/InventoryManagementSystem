@@ -60,18 +60,37 @@ function EditProduct() {
     }
 
     async function handleSubmit(e) {
-        e.preventDefault();
+ console.log("handleSubmit called");
+    e.preventDefault();
+    console.log("Form submission prevented");
+    
+    console.log("About to fetch with id:", id);
+    console.log("Form data:", formData);
+    
+    try {
+        console.log("Starting fetch...");
+        
         const res = await fetch(`/api/products/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData),
         });
 
-        if (res.ok) {
-            navigate("/products", { state: { reload: true } });
+        console.log("Fetch completed!");
+        console.log("Response received:", res);
+        console.log("Response status:", res.status);
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log("Success! Navigating...");
+            navigate("/products");
         } else {
+            console.log("Bad status code");
             alert("Failed to update product.");
         }
+    } catch (error) {
+        console.error("ERROR in fetch:", error);
+        alert("Error updating product: " + error.message);
+    }
     }
 
     if (loading) return <p>Loading product...</p>;

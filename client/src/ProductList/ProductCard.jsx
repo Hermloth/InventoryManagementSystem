@@ -2,50 +2,14 @@ import { useEffect, useState } from "react";
 import "./ProductCard.css";
 import { useNavigate } from "react-router";
 
-// Expect to get an array of objects
-/*
-EDITABLE FIELDS
-Size
-Style
-Color
+// TODO: Add styling to Product Card Field Groups
 
-ADVANCED - Material Cost (Actual)
-BASIC - Retail Price
-ADVANCED - Packaging Cost
-
-BASIC - SOH
-BASIC - SIT
-BASIC  - Reorder Level
-
-// CALCULATED FIELDS
-ADVANCED - Cost (Average -- needs stock order history table)
-BASIC - Markup (Retail - Cost AVG)
-ADVANCED - Total Sold (-- needs Sales History Table)
-
-ADVANCED - Stripe Fees (Retail Cost * 0.0175) + 0.3)
-ADVANCED - Business Registartion Calc (Business Fee in Settings / Total Units Sold)
-ADVANCED - Website Fee Calc (Business Fee in Settings / Total Units Sold)
-ADVANCED - Labour Cost (Labor Cost in Settings)
-
-ADVANCED - Admin Costs (Website Fee Calc + Business Registration Calc + Domain Fee Calc + Stripe Fee Calc + Packaging Cost)
-
-BASIC - COGS [Cost of Goods Sold] (Admin Costs + Cost Actual)
-ADVANCED - Profit / Unit (Retail Price - COGS)
-BASIC - Margin ((Retail Price - COGS) / COGS)
-
-BASIC - REORDER FLAG (TRUE IF (SOH + SIT) < Reorder Level))
-
-
-ADVANCED - WIX ID (Non-Editable)
-*/
-
-
-// make sure to change destructuring of number once changed to a data object input
 function ProductCard({product, settings}){
 
     const navigate = useNavigate();
 
     const [advanced, setAdvanced] = useState(false)
+    const [showMore, setshowMore] = useState(false)
     const [salesData, setSalesData] = useState(null);
     const [purchaseData, setPurchaseData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -69,129 +33,101 @@ function ProductCard({product, settings}){
     useEffect(() => {
         if (!product) return;
 
-        async function fetchSpecificSalesData(){
-            try {
-                const response = await fetch(`/api/sales/${product.id}`);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                setSalesData(data);
+        async function fetchAllData() {
+            setLoading(true);
+        try {
+            const [salesResponse, purchaseResponse] = await Promise.all([
+                fetch(`/api/sales/${product.id}`),
+                fetch(`/api/purchases/${product.id}`)
+            ]);
 
-                calculateProperties(data);
-
-            } catch (error) {
-                console.error(`Error Fetching SalesData for product ${product.id}`, error);
-            } finally {
-                setLoading(false);
+            if (!salesResponse.ok || !purchaseResponse.ok) {
+                throw new Error('Failed to fetch data');
             }
+
+            const salesData = await salesResponse.json();
+            const purchaseData = await purchaseResponse.json();
+
+            setSalesData(salesData);
+            setPurchaseData(purchaseData);
+
+            calculateProperties(salesData, purchaseData);
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoading(false);
         }
 
-        async function fetchSpecificPurchaseData(){
-            try {
-                const response = await fetch(`/api/purchases/${product.id}`);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log('Purchase data:', JSON.stringify(data, null, 2));
-                setPurchaseData(data);
-
-            } catch (error) {
-                console.error(`Error Fetching Purchase Data for product ${product.id}`, error);
-            }
         }
-        
-/*
-         {
-    "id": 2,
-    "product_id": 1,
-    "purchase_amount": "20.00",
-    "purchase_qty": "3"
-  },
-  {
-    "id": 3,
-    "product_id": 1,
-    "purchase_amount": "10.00",
-    "purchase_qty": "1"
-  }
-*/
 
-        function calculateProperties(salesDataArray) {
+        function calculateProperties(salesDataArray, purchaseData) {
             if (!product || !salesDataArray || !settings) return;
 
             // Calculate total sold from sales data
             const totalsold = salesDataArray.length;
 
-            // Calculate average cost from sales data (if you have cost info in sales)
-            // For now, using material cost from product if available
-            //const averageCost = product.material_cost || 0;
+            // Calculate most recent unit cost from purchase data
+            let materialcost = 0;
+            if (purchaseData && purchaseData.length > 0) {
+                const mostRecentPurchase = purchaseData.reduce((prev, current) => {
+                    return (current.id > prev.id) ? current : prev;
+                });
+                materialcost = parseFloat(mostRecentPurchase.unit_amount);
+            }
 
             // BASIC - Markup (Retail - Cost AVG)
-            //const markup = product.retail_price - averageCost;
+            const markup = parseFloat(product.retail_price - materialcost).toFixed(2)
 
             //Stripe Fees ((Retail Cost * 0.0175) + 0.3)
             const stripefees = (product.retail_price * 0.0175) + 0.3;
 
             // ADVANCED - Business Registration Calc (Business Fee in Settings / Total Units Sold)
-            const busregfees = totalsold > 0 ? (settings.business_registration_calc || 0) / totalsold : 0;
+            const busregfees = totalsold > 0 ? (settings.business_registration_calc || 0) / totalsold: 0;
 
             //Website Fee Calc (Website Fee in Settings / Total Units Sold)
-            const websitefees = totalsold > 0 ? (settings.website_fee_calc || 0) / totalsold : 0;
+            const websitefees = totalsold > 0 ? parseFloat(settings.website_fee_calc|| 0) / totalsold : 0;
 
-            // ADVANCED - Domain Fee Calc (Domain Fee in Settings / Total Units Sold)
-            //const domainfees = totalsold > 0 ? (settings.domain_fee || 0) / totalsold : 0;
-
-            // ADVANCED - Labour Cost (from Settings)
-            //const labourcost = settings.labour_cost || 0;
-
-            // Material cost
-            //const materialcost = product.material_cost || 0;
-
-            // Packaging cost
-            //const packagingcost = product.packaging_cost || 0;
+            // Get labour and packaging costs
+            const labourcost = parseFloat(settings?.labour_cost || 0);
+            const packagingcost = parseFloat(settings?.packaging_cost || 0);
 
             // ADVANCED - Admin Costs (Website Fee + Business Registration + Domain Fee + Stripe Fee + Packaging Cost)
-            //const admincost = websitefees + busregfees + domainfees + stripefees + packagingcost;
+            const admincost = parseFloat(stripefees + busregfees + websitefees + labourcost + packagingcost).toFixed(2);
 
             // BASIC - COGS [Cost of Goods Sold] (Admin Costs + Cost Actual)
-            //const COGS = admincost + averageCost;
+            const COGS = admincost + materialcost;
 
             // ADVANCED - Profit / Unit (Retail Price - COGS)
-            //const profitperunit = product.retail_price - COGS;
+            const profitperunit = product?.retail_price - COGS;
 
             // BASIC - Margin ((Retail Price - COGS) / COGS)
-            //const margin = COGS > 0 ? ((product.retail_price - COGS) / COGS) * 100 : 0;
+            const margin = COGS > 0 ? ((product.retail_price - COGS) / COGS) * 100 : 0;
 
-            // BASIC - REORDER FLAG (TRUE IF (SOH + SIT) < Reorder Level)
-            //const reorderflag = (product.soh + product.sit) < product.reorder_level;
 
             setCalculatedProperties({
-                //markup,
-                //COGS,
-                //margin,
-                //reorderflag,
-                //materialcost,
-                //packagingcost,
+                markup,
+                COGS: parseFloat(COGS).toFixed(2),
+                margin: parseFloat(margin).toFixed(),
+                materialcost,
                 totalsold,
-                stripefees,
-                busregfees,
-                websitefees
-                //labourcost,
-                //admincost,
-                //profitperunit
+                stripefees: parseFloat(stripefees).toFixed(2),
+                busregfees: parseFloat(busregfees).toFixed(2),
+                websitefees: parseFloat(websitefees).toFixed(2),
+                admincost,
+                profitperunit: parseFloat(profitperunit).toFixed(2)
             }); 
         }
-        fetchSpecificPurchaseData()
-        fetchSpecificSalesData()
-    }, [])
+
+        fetchAllData();
+    }, [product?.id, settings])
 
     function switchAdvanced(){
         setAdvanced(!advanced)
+    }
+
+    function switchShowMore(){
+        setshowMore(!showMore)
     }
 
     return <>
@@ -206,36 +142,45 @@ function ProductCard({product, settings}){
                     </button>
                 </div>
                 <div>
-                    <div>Name: {product.product_name}</div>
-                    <div>Size: {product.size}</div>
-                    <div>Style: {product.style}</div>
-                    <div>Color: {product.color}</div>
-                    <div>Retail Price: {product.retail_price}</div>
-                    <div>SOH: {product.soh}</div>
-                    <div>SIT: {product.sit}</div>
-                    <div>Reorder Level: {product.reorder_level}</div>
-                    <div>Test Markup WIP</div>
-                    <div>Test COGS WIP</div>
-                    <div>Test Margin WIP</div>
-                    {(product.soh + product.sit)<product.reorder_level ? <div>REORDER</div> : <div></div>}
+                    {(product.soh + product.sit)<product.reorder_level ? <div className="ReorderBanner"><b>REORDER</b></div> : <div></div>}
+                    <div><b>{product.product_name}</b> {product.size} {product.style}, {product.color}</div>
+                    <div className="PricingContainer">
+                        <div>Retail Price: {product.retail_price}</div>
+
+                        <div>COGS: ${calculatedProperties?.COGS}</div>
+                        <div>Profit per Unit: ${calculatedProperties?.profitperunit}</div>
+                        <div>Margin: %{calculatedProperties?.margin}</div>
+                    </div>
+                    <div className="StockLevelContainer">
+                        <div>SOH: {product.soh}</div>
+                        <div>SIT: {product.sit}</div>
+                        <div>Reorder Level: {product.reorder_level}</div>
+                    </div>
+                    
                     <button className="advancedButton" onClick={switchAdvanced}>Advanced</button>
                     {advanced?
                         <>
-                        <div>Product Id: {product.id}</div>
-                        <div>Test Material Cost WIP</div>
-                        <div>Test Cost - Avg WIP</div>
-                        <div>Total Sold: {loading ? "Loading..." : calculatedProperties?.totalsold || 'N/A'}</div>
-                        <div>Stripe Fees: ${loading ? `Loading...` : calculatedProperties?.stripefees || 'N/A'}</div>
-                        <div>Business Registration Fees: ${loading ? `Loading...` : calculatedProperties?.busregfees || `N/A`}</div>
-                        <div>Website Fee Calc: ${loading ? `Loading...` : calculatedProperties?.websitefees || "N/A"}</div>
-                        <div>Labour Cost: ${loading? `Loading...` : settings?.labour_cost || "N/A"}</div>
-                        <div>Packaging Cost: ${loading? `Loading...` : settings?.packaging_cost || "N/A"}</div>
-                        <div>Test Profit / Unit WIP</div>
-                        <div>WixId: {product.wix_id}</div>
-                        <div>Reorder Link: {product.reorder_link}</div>
-                        <div>Reorder Link 2: {product.reorder_link_two}</div>
+                            <div>Reorder Link: {product.reorder_link ? <a href={product.reorder_link} target="_blank" rel="noopener noreferrer">{product.reorder_link}</a> : 'N/A'}</div>
+                            <div>Reorder Link 2: {product.reorder_link_two ? <a href={product.reorder_link_two} target="_blank" rel="noopener noreferrer">{product.reorder_link_two}</a> : 'N/A'}</div>
+                            <div>Product Id: {product.id}</div>
+                            <div>WixId: {product.wix_id}</div>
+                            <div>Total Sold: {loading ? "Loading..." : calculatedProperties?.totalsold || 'N/A'}</div>
+
+                            <div>Unit Cost: ${calculatedProperties?.materialcost || 'N/A'}</div>
+                            <div>Markup: ${calculatedProperties?.markup}</div>
+
+                            <div>Admin Cost: ${loading? `Loading...` : calculatedProperties?.admincost || "N/A"}</div>
+                            <button className="advancedButton" onClick={switchShowMore}>Show More</button>
+                            {showMore? 
+                            <> 
+                                <div>Stripe Fees: ${loading ? `Loading...` : calculatedProperties?.stripefees || 'N/A'}</div>
+                                <div>Business Registration Fees: ${loading ? `Loading...` : calculatedProperties?.busregfees || `N/A`}</div>
+                                <div>Website Fee Calc: ${loading ? `Loading...` : calculatedProperties?.websitefees || "N/A"}</div>
+                                <div>Labour Cost: ${loading? `Loading...` : settings?.labour_cost || "N/A"}</div>
+                                <div>Packaging Cost: ${loading? `Loading...` : settings?.packaging_cost || "N/A"}</div>
+                            </>
+                            : null}
                     </>
-                    
                     : null}
                 </div>
         </div> 

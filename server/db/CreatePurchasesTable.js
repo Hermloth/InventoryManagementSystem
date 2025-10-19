@@ -7,6 +7,7 @@ const SQLPurchasesTableGeneration =
         id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
         product_id INTEGER NOT NULL,
         purchase_amount NUMERIC (10,2),
+        unit_amount NUMERIC (10,2),
         purchase_qty NUMERIC (4,0),
         FOREIGN KEY (product_id) REFERENCES products(id)
         );`
@@ -15,8 +16,9 @@ const SQLPurchaseTableSeed =
     `INSERT INTO purchases (
         product_id,
         purchase_amount,
+        unit_amount,
         purchase_qty)
-        VALUES (1, 5.00, 3);`
+        VALUES (1, 5.00, 1.25, 3);`
 
 async function main() {
     const password = encodeURIComponent(process.env.DBPASSWORD);

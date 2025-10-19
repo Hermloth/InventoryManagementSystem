@@ -16,8 +16,9 @@ function PurchaseLine({purchaseDat, onDelete}){
             </div>
             <div className="purchaseRowContent">
                 <div><b>Product Id:</b> {purchaseDat.product_id}</div>
-                <div><b>Unit Cost:</b> ${purchaseDat.purchase_amount}</div>
-                <div><b>Purchase Qty:</b> ${purchaseDat.purchase_qty}</div>
+                <div><b>Total Cost:</b> ${purchaseDat.purchase_amount}</div>
+                <div><b>Unit Cost:</b>${(parseFloat(purchaseDat.purchase_amount / purchaseDat.purchase_qty).toFixed(2))} </div>
+                <div><b>Purchase Qty:</b> {purchaseDat.purchase_qty}</div>
             </div>
 
         </div>

@@ -18,3 +18,15 @@
     margin-right: 8px;
     margin-top: 4px;
 }
+
+.ReorderBanner{
+    background-color: red;
+}
+
+.PricingContainer{
+    border: 1px solid orange;
+}
+
+.StockLevelContainer{
+    border: 1px solid blue;
+}
