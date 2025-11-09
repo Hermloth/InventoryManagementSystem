@@ -11,12 +11,8 @@ async function ListPurchases (req, res) {
 }
 
 async function AddNewPurchase (req, res) {
-    try {
-            console.log(req.body);
-            
-            await dbQueries.insertPurchase(req.body);
-            console.log("Item Added");
-            
+    try {            
+            await dbQueries.insertPurchase(req.body);            
             res.status(201).json({ message: "Purchase added successfully" });
         } catch (error) {
             console.error("Error adding Purchase:", error);

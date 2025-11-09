@@ -11,7 +11,8 @@ const SQLSettingsTableGeneration =
         labour_cost NUMERIC (10,2),
         admin_costs NUMERIC (10,2),
         domain_fees NUMERIC (10,2),
-        target_margin NUMERIC (10,2)
+        target_margin NUMERIC (10,2),
+        wix_integration_enabled BOOLEAN DEFAULT false
         );`
 
 const SQLSettingsTableSeeding = 

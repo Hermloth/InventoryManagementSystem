@@ -9,7 +9,7 @@ async function seedPurchases() {
         console.log(`Starting to seed ${NUMBER_OF_RECORDS} purchase records...`);
         
         for (let i = 0; i < NUMBER_OF_RECORDS; i++) {
-            const productId = 1;
+            const productId = Math.floor(Math.random() * 20) + 1; // 1-20;
             const purchaseAmount = Math.floor(Math.random() * 300) + 1; // 1-300
             const purchaseQty = Math.floor(Math.random() * 50) + 1; // 1-50
             const unitAmount = purchaseAmount / purchaseQty;
@@ -20,7 +20,6 @@ async function seedPurchases() {
                 [productId, purchaseAmount, unitAmount, purchaseQty]
             );
             
-            console.log(`Inserted record ${i + 1}: Amount: $${purchaseAmount}, Qty: ${purchaseQty}, Unit: $${unitAmount.toFixed(2)}`);
         }
         
         console.log(`Successfully seeded ${NUMBER_OF_RECORDS} purchase records!`);

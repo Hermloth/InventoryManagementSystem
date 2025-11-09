@@ -13,6 +13,7 @@ import SalesList from './SalesList/SalesList.jsx';
 import AddSale from './SalesList/AddSale.jsx';
 import PurchaseList from './PurchaseList/PurchaseList.jsx';
 import AddPurchase from './PurchaseList/AddPurchase.jsx';
+import LinkProductList from './ProductList/LinkProductList.jsx';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
             <Route path="/sales/new" element={<AddSale />} />
             <Route path="/purchases" element={<PurchaseList />} />
             <Route path="/purchases/new" element={<AddPurchase />} />
+            <Route path='/products/:id/link' element={<LinkProductList/>} />
       </Routes>
     </main>
   </div>

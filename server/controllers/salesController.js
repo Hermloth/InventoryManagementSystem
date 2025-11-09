@@ -1,5 +1,6 @@
 import { body, validationResult } from "express-validator";
 import dbQueries from "../db/salesqueries.js"
+import productDbQueries from "../db/queries.js"
 
 function TestReturnFunction (req, res) {
     res.send("Test Return")
@@ -12,14 +13,13 @@ async function ListSales (req, res) {
 
 async function AddNewSale (req, res) {
     try {
-            console.log(req.body);
-            
+            const { product_id, sale_amount } = req.body;
             await dbQueries.insertSale(req.body);
-            console.log("Item Added");
+            await productDbQueries.reduceProductSOH(product_id, 1);
             
-            res.status(201).json({ message: "Sale added successfully" });
+            res.status(201).json({ message: "Sale added successfully and inventory updated" });
         } catch (error) {
-            console.error("Error adding Sale:", error);
+            console.error("Error adding sale:", error);
             res.status(500).json({ error: error.message });
         }
 }

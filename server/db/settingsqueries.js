@@ -8,6 +8,8 @@ async function getAllSettings() {
     return rows;
 }
 
+
+
 async function updateSettings(data){
     console.log("Update Called")
     const {
@@ -18,7 +20,8 @@ async function updateSettings(data){
         domainfees,
         labourperday,
         targetmargin,
-        admincosts
+        admincosts,
+        wixIntegrationEnabled
     } = data
 
 
@@ -31,7 +34,9 @@ async function updateSettings(data){
             labour_cost = $5,
             admin_costs = $6,
             domain_fees = $7,
-            target_margin =$8
+            target_margin =$8,
+            wix_integration_enabled = $9
+
             RETURNING *`,
             [
                 stripefees,
@@ -41,7 +46,8 @@ async function updateSettings(data){
                 labourperday,
                 admincosts,
                 domainfees,
-                targetmargin
+                targetmargin,
+                wixIntegrationEnabled
             ]
     );
 

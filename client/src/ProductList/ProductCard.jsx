@@ -122,6 +122,10 @@ function ProductCard({product, settings}){
         fetchAllData();
     }, [product?.id, settings])
 
+    function NavLinkProduct(){
+        navigate(`/products/${product.id}/link`);
+    }
+
     function switchAdvanced(){
         setAdvanced(!advanced)
     }
@@ -163,8 +167,16 @@ function ProductCard({product, settings}){
                             <div>Reorder Link: {product.reorder_link ? <a href={product.reorder_link} target="_blank" rel="noopener noreferrer">{product.reorder_link}</a> : 'N/A'}</div>
                             <div>Reorder Link 2: {product.reorder_link_two ? <a href={product.reorder_link_two} target="_blank" rel="noopener noreferrer">{product.reorder_link_two}</a> : 'N/A'}</div>
                             <div>Product Id: {product.id}</div>
-                            <div>WixId: {product.wix_id}</div>
-                            <div>Total Sold: {loading ? "Loading..." : calculatedProperties?.totalsold || 'N/A'}</div>
+                            <div>
+                                WixId: {product.wix_id ? (
+                                    <>
+                                        {product.wix_id} 
+                                        <button className="LinkButton" onClick={NavLinkProduct}>Change</button>
+                                    </>
+                                ) : (
+                                    <button className="LinkButton" onClick={NavLinkProduct}>Link</button>
+                                )}
+                            </div>                            <div>Total Sold: {loading ? "Loading..." : calculatedProperties?.totalsold || 'N/A'}</div>
 
                             <div>Unit Cost: ${calculatedProperties?.materialcost || 'N/A'}</div>
                             <div>Markup: ${calculatedProperties?.markup}</div>

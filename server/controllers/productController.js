@@ -9,12 +9,8 @@ function TestReturnFunction (req, res) {
 }
 
 async function AddNewProduct (req, res) {
-    try {
-            console.log(req.body);
-            
-            await dbQueries.insertProduct(req.body);
-            console.log("Item Added");
-            
+    try {            
+            await dbQueries.insertProduct(req.body);            
             res.status(201).json({ message: "Product added successfully" });
         } catch (error) {
             console.error("Error adding product:", error);
@@ -51,10 +47,32 @@ async function UpdateProduct(req, res){
     }
 }
 
+async function UpdateProductWixId(req, res) {
+    const { id } = req.params;
+    const { wixId } = req.body;
+    
+    try {
+        const updatedProduct = await dbQueries.updateProductWixId(id, wixId);
+        
+        if (!updatedProduct) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+        
+        res.status(200).json({ 
+            message: "Wix ID updated successfully",
+            product: updatedProduct 
+        });
+    } catch (error) {
+        console.error("Error updating Wix ID:", error);
+        res.status(500).json({ error: error.message });
+    }
+}
+
 export default {
     TestReturnFunction,
     AddNewProduct,
     ListProducts,
     GetProductById,
     UpdateProduct,
+    UpdateProductWixId,
 };

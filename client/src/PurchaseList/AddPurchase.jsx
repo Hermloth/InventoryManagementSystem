@@ -14,7 +14,27 @@ function AddPurchase() {
         purchase_qty: ""
     });
 
-        const handleChange = (e) => {
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+            async function fetchProducts() {
+                try {
+                    const response = await fetch('/api/products');
+                    const data = await response.json();
+                    setProducts(data);
+                } catch (error) {
+                    console.error('Error fetching products:', error);
+                    toast.error('Failed to load products');
+                } finally {
+                    setLoading(false);
+                }
+            }
+
+            fetchProducts();
+        }, []);
+
+    const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
@@ -49,33 +69,56 @@ function AddPurchase() {
             
         };
 
-
-        /*
-            TODO:
-            Add total cost, make unit cost total cost / unit cost.
-        */ 
+    if (loading) {
+        return <div>Loading products...</div>;
+    }
 
 return (
         <div className="NewPurchaseForm">
             <h2>Add New Purchase</h2>
             <form onSubmit={handleSubmit}>
                 <label>
-                    Product Id:
-                    <input type="number" name="product_id" value={formData.product_id} onChange={handleChange} />
+                    Product:
+                    <select 
+                        name="product_id" 
+                        value={formData.product_id} 
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="">-- Select a Product --</option>
+                        {products.map((product) => (
+                            <option key={product.id} value={product.id}>
+                                {product.product_name} - {product.size} {product.style}, {product.color}
+                            </option>
+                        ))}
+                    </select>
                 </label>
                 <label>
                     Total Cost:
-                    <input type="number" name="purchase_amount" value={formData.purchase_amount || ""} onChange={handleChange} />
+                    <input 
+                        type="number" 
+                        step="0.01"
+                        name="purchase_amount" 
+                        value={formData.purchase_amount || ""} 
+                        onChange={handleChange}
+                        required 
+                    />
                 </label>
                 <label>
                     Purchase Qty:
-                    <input type="number" name="purchase_qty" value={formData.purchase_qty || ""} onChange={handleChange} />
+                    <input 
+                        type="number" 
+                        name="purchase_qty" 
+                        value={formData.purchase_qty || ""} 
+                        onChange={handleChange}
+                        required 
+                    />
                 </label>
                 
                 <button type="submit">Save Changes</button>
             </form>
         </div>
-);
+    );
 
 }
 

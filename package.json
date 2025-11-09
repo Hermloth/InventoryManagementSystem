@@ -8,7 +8,12 @@
     "client": "npm run dev --prefix client",
     "client:build": "npm run build --prefix client",
     "client:preview": "npm run preview --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "db:reset": "node server/db/UtilityScripts/db_reset.js",
+    "db:setup": "node server/db/UtilityScripts/db_setup.js",
+    "db:seed": "node server/db/SeedingFiles/settingsseeder.js && node server/db/SeedingFiles/productsseeder.js && node server/db/SeedingFiles/purchasesseeder.js && node server/db/SeedingFiles/salesseeder.js",
+    "db:fresh": "node server/db/UtilityScripts/db_reset.js && server/db/UtilityScripts/node db_setup.js && npm run db:seed"
+
   },
   "dependencies": {
     "@wix/sdk": "^1.15.24",

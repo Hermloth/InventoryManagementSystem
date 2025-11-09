@@ -8,21 +8,36 @@ function SalesList(){
     const navigate = useNavigate();
     const [salesData, setSalesData] = useState([])
     const [loading, setLoading] = useState(true)
+    const [products, setProducts] = useState({})
 
-    useEffect(() => {
-        async function fetchSalesData(){
+useEffect(() => {
+        async function fetchAllData(){
             try{
-                const response = await fetch(`/api/sales`);
-                const data = await response.json();
-                setSalesData(data)
+                // Fetch sales data
+                const salesResponse = await fetch(`/api/sales`);
+                const salesData = await salesResponse.json();
+                
+                // Fetch all products
+                const productsResponse = await fetch(`/api/products`);
+                const productsData = await productsResponse.json();
+                
+                // Convert products array to object keyed by ID for easy lookup
+                const productsMap = {};
+                productsData.forEach(product => {
+                    productsMap[product.id] = product;
+                });
+
+                setSalesData(salesData);
+                setProducts(productsMap);
             } catch (error) {
-                console.error("Error Fetching SalesData", error);
+                console.error("Error Fetching Data", error);
+                toast.error("Failed to load data");
             } finally {
                 setLoading(false)
             }
         }
 
-        fetchSalesData();
+        fetchAllData();
     }, [])
 
     // Delete function
@@ -63,7 +78,8 @@ function SalesList(){
         {salesData.map((sale) => 
             <SaleLine 
                 key={sale.id} 
-                saleDat={sale} 
+                saleDat={sale}
+                product={products[sale.product_id]}
                 onDelete={handleDelete}
             />
         )}

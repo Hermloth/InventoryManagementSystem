@@ -6,6 +6,4 @@ const settingsRouter = Router()
 settingsRouter.get("/", settingsController.ListSettings)
 settingsRouter.put("/", settingsController.UpdateSettings)
 
-
-
 export default settingsRouter;

@@ -7,8 +7,11 @@ import { toast } from "react-toastify";
 function PurchaseList(){
     const navigate = useNavigate();
     const [purchaseData, setPurchaseData] = useState([])
+    const [products, setProducts] = useState({})
     const [loading, setLoading] = useState(true)
 
+
+    /*
     useEffect(() => {
         async function fetchPurchaseData(){
             try{
@@ -24,6 +27,38 @@ function PurchaseList(){
 
         fetchPurchaseData();
     }, [])
+*/
+
+    useEffect(() => {
+        async function fetchAllData(){
+            try{
+                // Fetch purchase data
+                const purchaseResponse = await fetch(`/api/purchases`);
+                const purchaseData = await purchaseResponse.json();
+                
+                // Fetch all products
+                const productsResponse = await fetch(`/api/products`);
+                const productsData = await productsResponse.json();
+                
+                // Convert products array to object keyed by ID for easy lookup
+                const productsMap = {};
+                productsData.forEach(product => {
+                    productsMap[product.id] = product;
+                });
+                
+                setPurchaseData(purchaseData);
+                setProducts(productsMap);
+            } catch (error) {
+                console.error("Error Fetching Data", error);
+                toast.error("Failed to load data");
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchAllData();
+    }, [])
+
 
     // Delete function
     const handleDelete = async (purchaseId) => {
@@ -63,7 +98,8 @@ function PurchaseList(){
         {purchaseData.map((purchase) => 
             <PurchaseLine 
                 key={purchase.id} 
-                purchaseDat={purchase} 
+                purchaseDat={purchase}
+                product={products[purchase.product_id]}
                 onDelete={handleDelete}
             />
         )}

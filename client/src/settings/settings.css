@@ -1,11 +1,67 @@
+.SettingsContainer {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.SettingsTitle {
+    font-size: 32px;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 30px;
+}
+
+.SettingsSection {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.SettingsSection h2 {
+    margin: 0 0 20px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #212529;
+}
+
+/* Wix Integration Toggle */
+.IntegrationToggleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.IntegrationInfo {
+    flex: 1;
+}
+
+.IntegrationInfo h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #212529;
+}
+
+.IntegrationInfo p {
+    margin: 0;
+    font-size: 14px;
+    color: #6c757d;
+    line-height: 1.5;
+}
+
+/* Toggle Switch Styling */
 .switch {
     position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
+    flex-shrink: 0;
 }
 
-.switch input { 
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
@@ -19,8 +75,7 @@
     right: 0;
     bottom: 0;
     background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
+    transition: 0.4s;
 }
 
 .slider:before {
@@ -31,25 +86,21 @@
     left: 4px;
     bottom: 4px;
     background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+    transition: 0.4s;
 }
 
 input:checked + .slider {
-    background-color: #2196F3;
+    background-color: #28a745;
 }
 
 input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px #28a745;
 }
 
 input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
     transform: translateX(26px);
 }
 
-/* Rounded sliders */
 .slider.round {
     border-radius: 34px;
 }
@@ -58,21 +109,74 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
-.MainRefData{
+/* Form Styling */
+.EditProductForm {
+    width: 100%;
+}
+
+.MainRefData {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    gap: 20px;
 }
 
-.formField{
-    margin-left: 8px;
+.MainRefData label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-weight: 500;
+    color: #495057;
+    font-size: 14px;
 }
 
-.SubmitButton{
-    background-color: lightgray;
-    margin-top: 8px;
+.formField {
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.SubmitButton:hover{
-    background-color: green;
+.formField:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.SubmitButton {
+    margin-top: 10px;
+    padding: 12px 24px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.SubmitButton:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+}
+
+.SubmitButton:active {
+    transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .SettingsContainer {
+        padding: 10px;
+    }
+
+    .IntegrationToggleContainer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .switch {
+        align-self: flex-end;
+    }
 }

@@ -7,17 +7,10 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 function Settings(){
-    // Set up following settings as REF DATA
-    /*
-    Website Fees (Yearly)
-    Business Registration Fees (Yearly)
-    Domain Fees (Yearly)
-    Labour (Per Sale)
 
-    Desired Margin (Per Product)
-    */
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true)
+    const [wixIntegrationEnabled, setWixIntegrationEnabled] = useState(false);
     const [formData, setFormData] = useState({
         stripefees: "",
         websitefees: "",
@@ -34,26 +27,37 @@ function Settings(){
         setFormData(prev => ({ ...prev, [name]: value }));
     }
 
+        function handleWixToggle(e) {
+        setWixIntegrationEnabled(e.target.checked);
+        // TODO: Save this setting to backend
+        toast.info(e.target.checked ? "Wix Integration Enabled" : "Wix Integration Disabled");
+    }
+    
     async function handleSubmit(e) {
         e.preventDefault();
         try{
-            const res = await fetch(`/api/settings`, {
+        // Include wixIntegrationEnabled in the data being sent
+        const dataToSubmit = {
+            ...formData,
+            wixIntegrationEnabled
+        };
+
+        const res = await fetch(`/api/settings`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData),
-            });
+            body: JSON.stringify(dataToSubmit),
+        });
 
-            if (res.ok) {
-                toast.success("Settings updated successfully!", { autoClose: 3000 });
-                navigate("/settings", { state: { reload: true } });
-            } else {
-                const err = await res.json();
-                toast.error(err.error || "Failed to update settings");
+        if (res.ok) {
+                    toast.success("Settings updated successfully!", { autoClose: 3000 });
+                } else {
+                    const err = await res.json();
+                    toast.error(err.error || "Failed to update settings");
+                }
+            } catch (err) {
+                console.error("Submit failed:", err);
+                toast.error("Network error: could not update settings");
             }
-        } catch {
-            console.error("Submit failed:", err);
-            toast.error("Network error: could not update settings");
-        }
     }
 
     useEffect(()=> {
@@ -73,6 +77,8 @@ function Settings(){
                     targetmargin: data.target_margin || "",
                     admincosts: data.admin_costs || ""
                 })
+                // TODO: Fetch wix_integration_enabled from backend
+                setWixIntegrationEnabled(data.wix_integration_enabled || false);
             } catch (error) {
                 console.error("Error fetching settings", error)
             } finally {
@@ -87,13 +93,27 @@ function Settings(){
 
     return <>
         <ToastContainer position="bottom-right" />
+<div className="SettingsContainer"> 
+<h1 className="SettingsTitle">Settings</h1>
+
+                <div className="SettingsSection">
+                <div className="IntegrationToggleContainer">
+                    <div className="IntegrationInfo">
+                        <h3>Wix Integration</h3>
+                        <p>Automatically sync stock levels with your Wix store when sales are made</p>
+                    </div>
+                    <label className="switch">
+                        <input 
+                            type="checkbox" 
+                            checked={wixIntegrationEnabled}
+                            onChange={handleWixToggle}
+                        />
+                        <span className="slider round"></span>
+                    </label>
+                </div>
+            </div>
 
 
-    <div>settings page</div>
-    <label className="switch">
-        <input type="checkbox"/>
-        <span className="slider round"></span>
-    </label>
     <form onSubmit={handleSubmit} className="EditProductForm">
         <div className="MainRefData">
             <label>
@@ -182,6 +202,7 @@ function Settings(){
             >Update Settings</button>
         </div>
     </form>
+    </div>   
 
 
     </>

@@ -1,12 +1,328 @@
-:root{
-    --highlight: #ED7D3A;
-    --background: #FDFDFF;
-    --menu: #102E4A;
-    --border: #828E82;
-    --highlightbackground: #718F94;
-    --greenbutton: #82D173;
+.Dashboard {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-.ContentContainer{
-    background-color: var(--background);
+.DashboardTitle {
+    font-size: 32px;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 30px;
+}
+
+.LoadingDashboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    font-size: 18px;
+    color: #6c757d;
+}
+
+/* Metrics Grid */
+.MetricsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.MetricCard {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.MetricCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.MetricCard.revenue {
+    border-left: 4px solid #28a745;
+}
+
+.MetricCard.profit {
+    border-left: 4px solid #007bff;
+}
+
+.MetricCard.inventory {
+    border-left: 4px solid #6f42c1;
+}
+
+.MetricCard.warning {
+    border-left: 4px solid #dc3545;
+}
+
+.MetricIcon {
+    font-size: 40px;
+    line-height: 1;
+}
+
+.MetricContent {
+    flex: 1;
+}
+
+.MetricContent h3 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.MetricValue {
+    margin: 0 0 4px 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #212529;
+}
+
+.MetricSubtext {
+    font-size: 13px;
+    color: #6c757d;
+}
+
+/* Dashboard Columns */
+.DashboardColumns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 20px;
+}
+
+.DashboardColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Dashboard Sections */
+.DashboardSection {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.DashboardSection h2 {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #212529;
+}
+
+.SectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.SectionHeader h2 {
+    margin: 0;
+}
+
+.ViewAllButton {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.ViewAllButton:hover {
+    color: #0056b3;
+}
+
+/* Top Products List */
+.TopProductsList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.TopProductItem {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.TopProductItem:hover {
+    background: #e9ecef;
+}
+
+.TopProductRank {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #007bff;
+    color: white;
+    font-weight: 700;
+    border-radius: 50%;
+    font-size: 14px;
+}
+
+.TopProductInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.TopProductInfo strong {
+    font-size: 14px;
+    color: #212529;
+}
+
+.TopProductInfo span {
+    font-size: 13px;
+    color: #6c757d;
+}
+
+/* Recent Lists */
+.RecentList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.RecentItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.RecentItem:hover {
+    background: #e9ecef;
+}
+
+.RecentItemInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.RecentItemInfo strong {
+    font-size: 14px;
+    color: #212529;
+}
+
+.RecentItemDetails {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.RecentItemAmount {
+    font-size: 16px;
+    font-weight: 600;
+    color: #28a745;
+}
+
+/* Quick Actions */
+.QuickActions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.QuickActionButton {
+    padding: 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    color: white;
+}
+
+.QuickActionButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.QuickActionButton:active {
+    transform: translateY(0);
+}
+
+.QuickActionButton.sales {
+    background: linear-gradient(135deg, #28a745, #20c997);
+}
+
+.QuickActionButton.purchases {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+}
+
+.QuickActionButton.products {
+    background: linear-gradient(135deg, #6f42c1, #5a32a3);
+}
+
+.QuickActionButton.view {
+    background: linear-gradient(135deg, #6c757d, #495057);
+}
+
+/* Empty State */
+.EmptyState {
+    text-align: center;
+    color: #6c757d;
+    font-size: 14px;
+    padding: 20px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .DashboardColumns {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .Dashboard {
+        padding: 10px;
+    }
+
+    .DashboardTitle {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .MetricsGrid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .MetricCard {
+        padding: 16px;
+    }
+
+    .MetricIcon {
+        font-size: 32px;
+    }
+
+    .MetricValue {
+        font-size: 22px;
+    }
+
+    .QuickActions {
+        grid-template-columns: 1fr;
+    }
 }

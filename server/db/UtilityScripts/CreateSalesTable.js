@@ -6,6 +6,7 @@ const SQLSalesTableGeneration =
     `CREATE TABLE IF NOT EXISTS sales (
         id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
         product_id INTEGER NOT NULL,
+        sale_channel VARCHAR (255),
         sale_amount NUMERIC (10,2),
         FOREIGN KEY (product_id) REFERENCES products(id)
         );`

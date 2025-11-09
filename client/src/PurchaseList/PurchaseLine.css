@@ -1,30 +1,52 @@
-.purchaseRow{
+.purchaseRow {
     display: flex;
     flex-direction: column;
-    background-color: lightslategray;
-    margin: 2px;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease;
 }
 
-.purchaseRowHeader{
+.purchaseRow:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.purchaseRowHeader {
     display: flex;
-    font-size: x-small;
     justify-content: space-between;
     align-items: center;
-    align-items: start;
-    margin-left: 5px;
+    padding: 12px 15px 8px 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    border-radius: 8px 8px 0 0;
 }
 
-.purchaseRowContent{
+.purchaseRowHeader > div {
+    font-size: 13px;
+    color: #495057;
+}
+
+.purchaseRowContent {
     display: flex;
-    flex-direction: row;
-    gap: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    font-size: small;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 15px;
+    font-size: 14px;
 }
 
-.DeleteButton{
+.purchaseRowContent > div {
+    color: #212529;
+}
+
+.purchaseRowContent b {
+    color: #495057;
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.DeleteButton {
     background-color: #dc3545;
     border: none;
     border-radius: 4px;
@@ -33,17 +55,43 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.2s;
-    min-width: 24px;
-    min-height: 24px;
+    transition: all 0.2s ease;
+    min-width: 28px;
+    min-height: 28px;
 }
 
-.DeleteButton:hover{
+.DeleteButton:hover {
     background-color: #c82333;
+    transform: scale(1.05);
 }
 
-.DeleteButton img{
-    width: 14px;
-    height: 14px;
+.DeleteButton:active {
+    transform: scale(0.95);
+}
+
+.DeleteButton img {
+    width: 16px;
+    height: 16px;
     display: block;
+    filter: brightness(0) invert(1); /* Makes the icon white */
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+    .purchaseRowContent {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    .purchaseRowContent > div:first-child {
+        flex: 1 1 100%;
+        margin-bottom: 8px;
+    }
+    
+    .purchaseRowContent > div:not(:first-child) {
+        flex: 1 1 auto;
+        white-space: nowrap;
+    }
 }

@@ -98,7 +98,6 @@ async function updateProduct(id, data) {
     return result.rowCount ? result.rows[0] : null;
 }
 
-
 //DELETE a product from the DB
 async function deleteProduct(productid) {
     try{
@@ -119,6 +118,20 @@ async function deleteProduct(productid) {
         throw err;
     }
 }
+
+async function updateProductWixId(productId, wixId) {
+    try {
+        const result = await pool.query(
+            `UPDATE products SET wix_id = $1 WHERE id = $2 RETURNING *`,
+            [wixId, productId]
+        );
+        return result.rowCount ? result.rows[0] : null;
+    } catch (err) {
+        console.error("Error updating wix_id:", err.message);
+        throw err;
+    }
+}
+
 
 //Refresh Data for WIX Site
 async function upsertWixProduct(product) {
@@ -211,6 +224,22 @@ async function deleteAllProducts() {
 }
 
 
+async function reduceProductSOH(productId, quantity = 1) {
+    try {
+        const result = await pool.query(
+            `UPDATE products 
+            SET soh = soh - $1 
+            WHERE id = $2 
+            RETURNING *`,
+            [quantity, productId]
+        );
+        return result.rowCount ? result.rows[0] : null;
+    } catch (err) {
+        console.error("Error reducing product SOH:", err.message);
+        throw err;
+    }
+}
+
 const dbQuery = {
     getAllProducts,
     insertProduct,
@@ -218,7 +247,9 @@ const dbQuery = {
     getProductById,
     updateProduct,
     //upsertWixProduct,
-    //deleteAllProducts 
+    //deleteAllProducts
+    updateProductWixId,
+    reduceProductSOH, 
 }
 
 export default dbQuery;

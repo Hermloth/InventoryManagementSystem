@@ -8,16 +8,9 @@ productRouter.get("/", productController.ListProducts)
 
 productRouter.post("/new", productController.AddNewProduct)
 
-//productRouter.post("/new", validateProduct, productController.AddNewProduct)
-
-//productRouter.delete("/", productController.DeleteAllProducts);
-//productRouter.delete("/:id", productController.DeleteProduct)
-
 productRouter.get("/:id", productController.GetProductById);
 productRouter.put("/:id", productController.UpdateProduct);
 
-//productRouter.post("/sync-wix", productController.syncWixProductsToLocal);
-//productRouter.post("/update-wix-ids", productController.updateWixIdsFromFrontend);
-
+productRouter.patch("/:id/wix-id", productController.UpdateProductWixId);
 
 export default productRouter;

@@ -8,5 +8,4 @@ purchasesRouter.post("/new", purchasesController.AddNewPurchase)
 purchasesRouter.get("/:id", purchasesController.GetSpecificPurchaseData)
 purchasesRouter.delete("/:id", purchasesController.DeletePurchase);
 
-
 export default purchasesRouter;
