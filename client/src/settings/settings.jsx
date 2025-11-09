@@ -29,14 +29,12 @@ function Settings(){
 
         function handleWixToggle(e) {
         setWixIntegrationEnabled(e.target.checked);
-        // TODO: Save this setting to backend
         toast.info(e.target.checked ? "Wix Integration Enabled" : "Wix Integration Disabled");
     }
     
     async function handleSubmit(e) {
         e.preventDefault();
         try{
-        // Include wixIntegrationEnabled in the data being sent
         const dataToSubmit = {
             ...formData,
             wixIntegrationEnabled

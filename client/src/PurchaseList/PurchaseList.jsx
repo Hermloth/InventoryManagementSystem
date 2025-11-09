@@ -10,25 +10,6 @@ function PurchaseList(){
     const [products, setProducts] = useState({})
     const [loading, setLoading] = useState(true)
 
-
-    /*
-    useEffect(() => {
-        async function fetchPurchaseData(){
-            try{
-                const response = await fetch(`/api/purchases`);
-                const data = await response.json();
-                setPurchaseData(data)
-            } catch (error) {
-                console.error("Error Fetching Purchase Data", error);
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        fetchPurchaseData();
-    }, [])
-*/
-
     useEffect(() => {
         async function fetchAllData(){
             try{
