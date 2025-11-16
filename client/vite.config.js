@@ -4,9 +4,12 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    hmr: true,
     proxy: {
-      '/api': 'http://localhost:4001'
+      '/api': {
+        target: 'http://localhost:4001',
+        changeOrigin: true,
+        secure: false,
+      }
     }
   }
-});
+})

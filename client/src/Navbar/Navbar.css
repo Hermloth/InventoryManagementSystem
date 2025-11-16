@@ -139,5 +139,69 @@
 }
 
 .AdminNav {
-    margin-top: auto; /* pushes this ul to the bottom */
+    margin-top: auto;
+}
+
+.user-section {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-info {
+    padding: 8px 12px;
+}
+
+.username {
+    color: white;
+    font-size: 0.85em;
+    margin: 0 0 8px 0;
+    padding: 0 6px;
+    font-weight: 500;
+    text-align: left;
+}
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 6px 18px;
+    background-color: rgba(237, 125, 58, 0.2);
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 0.9em;
+}
+
+.logout-button:hover {
+    background-color: rgba(237, 125, 58, 0.4);
+}
+
+.logout-button span {
+    font-size: 1em;
+}
+
+.logout-button .MenuIcon {
+    margin-right: 0;
+}
+
+.logout-button-collapsed {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 100%;
+}
+
+.logout-button-collapsed:hover .MenuLine {
+    background-color: rgba(237, 125, 58, 0.3);
+}
+
+.logout-button-collapsed .MenuLine {
+    transition: background-color 0.2s;
+    border-radius: 4px;
+    padding: 8px 18px;
 }

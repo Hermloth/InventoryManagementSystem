@@ -10,8 +10,9 @@ import collapseIcon from "./assets/collapseIcon.svg"
 import productIcon from "./assets/productIcon.svg"
 import salesIcon from "./assets/sales.svg"
 import purchaseIcon from "./assets/purchase.svg"
+import logoutIcon from "./assets/logout.svg"
 
-function Navbar(){
+function Navbar({ onLogout, user }){
     const [collapsed, setCollapsed] = useState(false);
 
     return (
@@ -111,6 +112,23 @@ function Navbar(){
                                                 </div>
                                         </Link>
                                     )}
+                    </li>
+                                        <li className="NoPad user-section">
+                        {collapsed ? (
+                            <button className="logout-button-collapsed" onClick={onLogout} title={`Logout ${user.username}`}>
+                                <div className="MenuLine">
+                                    <img className="MenuIcon" src={logoutIcon} alt="Logout"></img>
+                                </div>
+                            </button>
+                        ) : (
+                            <div className="user-info">
+                                <p className="username">{user.username}</p>
+                                <button className="logout-button" onClick={onLogout}>
+                                    <img className="MenuIcon" src={logoutIcon} alt="Logout"></img>
+                                    <span>Logout</span>
+                                </button>
+                            </div>
+                        )}
                     </li>
                 </ul>
 

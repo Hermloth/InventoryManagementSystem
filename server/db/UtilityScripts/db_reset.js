@@ -7,6 +7,7 @@ const dropTablesSQL = `
     DROP TABLE IF EXISTS purchases CASCADE;
     DROP TABLE IF EXISTS products CASCADE;
     DROP TABLE IF EXISTS settings CASCADE;
+    DROP TABLE IF EXISTS users CASCADE;
 `;
 
 async function resetDatabase() {

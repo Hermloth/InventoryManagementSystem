@@ -56,6 +56,13 @@ const createPurchasesTable = `
     );
 `;
 
+const createUsersTable = `
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    passwordhash VARCHAR(255) NOT NULL
+);`
+
 async function setupDatabase() {
     const password = encodeURIComponent(process.env.DBPASSWORD);
     const client = new Client({
@@ -80,6 +87,9 @@ async function setupDatabase() {
         
         console.log('  → Creating purchases table...');
         await client.query(createPurchasesTable);
+
+        console.log('  → Creating users table...');
+        await client.query(createUsersTable);
         console.log('✅ All tables created successfully!\n');
 
     } catch (error) {
