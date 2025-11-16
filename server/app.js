@@ -75,13 +75,13 @@ passport.use(
 
 // Serialize user (store user ID in session)
 passport.serializeUser((user, done) => {
-    done(null, user.id); // ✨ Changed from user.username to user.id
+    done(null, user.id);
 });
 
 // Deserialize user (retrieve user from database using ID)
-passport.deserializeUser(async (id, done) => { // ✨ Changed parameter name from username to id
+passport.deserializeUser(async (id, done) => {
     try {
-        const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [id]); // ✨ This was already correct
+        const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
         const user = rows[0];
         
         if (!user) {
