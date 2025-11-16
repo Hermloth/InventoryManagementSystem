@@ -19,7 +19,7 @@ export default function Login({ setUser }) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                credentials: 'include', // Important for cookies/sessions
+                credentials: 'include',
                 body: JSON.stringify({ username, password }),
             });
 
@@ -27,7 +27,7 @@ export default function Login({ setUser }) {
 
             if (response.ok) {
                 setUser(data.user);
-                navigate('/'); // Redirect to dashboard
+                navigate('/');
             } else {
                 setError('Invalid username or password');
             }
