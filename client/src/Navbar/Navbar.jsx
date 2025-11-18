@@ -11,6 +11,7 @@ import productIcon from "./assets/productIcon.svg"
 import salesIcon from "./assets/sales.svg"
 import purchaseIcon from "./assets/purchase.svg"
 import logoutIcon from "./assets/logout.svg"
+import usersIcon from "./assets/Users.svg"
 
 function Navbar({ onLogout, user }){
     const [collapsed, setCollapsed] = useState(false);
@@ -92,6 +93,20 @@ function Navbar({ onLogout, user }){
                                                 <div className="MenuLine">
                                                     <img className="MenuIcon" src={purchaseIcon}></img>
                                                     <p className="MenuTitle LowPad">Purchases</p>
+                                                </div>
+                                        </Link>
+                                    )}
+                    </li>
+                    <li className="NoPad">
+                        {collapsed? (<Link to="/users">
+                                        <div className="MenuLine">
+                                            <img className="MenuIcon" src={usersIcon}></img>
+                                        </div>
+                                    </Link>):
+                                    (<Link to="/users">
+                                                <div className="MenuLine">
+                                                    <img className="MenuIcon" src={usersIcon}></img>
+                                                    <p className="MenuTitle LowPad">Users</p>
                                                 </div>
                                         </Link>
                                     )}

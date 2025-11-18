@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Form } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 //Component Imports
@@ -14,9 +14,12 @@ import SalesList from './SalesList/SalesList.jsx';
 import AddSale from './SalesList/AddSale.jsx';
 import PurchaseList from './PurchaseList/PurchaseList.jsx';
 import AddPurchase from './PurchaseList/AddPurchase.jsx';
+import UserList from './UserManagement/UserList.jsx';
 import LinkProductList from './ProductList/LinkProductList.jsx';
 import Login from './Login/Login.jsx';
 import ProtectedRoute from './Login/ProtectedRoute.jsx';
+import UserListComponent from './UserManagement/UserList.jsx';
+//import { format } from 'path';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -109,6 +112,10 @@ function App() {
             <Route path='/products/:id/link' element={
               <ProtectedRoute user={user}>
                   <LinkProductList />
+                </ProtectedRoute>} />
+                <Route path='/users' element={
+              <ProtectedRoute user={user}>
+                  <UserListComponent />
                 </ProtectedRoute>} />
             <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

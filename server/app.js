@@ -18,6 +18,7 @@ import productRouter from "./routes/productRouter.js";
 import settingsRouter from "./routes/settingsRouter.js";
 import salesRouter from "./routes/salesRouter.js";
 import purchasesRouter from "./routes/purchasesRouter.js"
+import  usersRouter from "./routes/usersRouter.js";
 dotenv.config();
 
 
@@ -160,6 +161,7 @@ app.use('/api/products', isAuthenticated, productRouter);
 app.use('/api/settings', isAuthenticated, settingsRouter);
 app.use(`/api/sales`, isAuthenticated, salesRouter);
 app.use('/api/purchases', isAuthenticated, purchasesRouter);
+app.use('/api/users', isAuthenticated, usersRouter);
 
 
 // Catch-all route to serve index.html for React Router (client-side)
