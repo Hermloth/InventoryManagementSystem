@@ -1,0 +1,171 @@
+/* User List Header */
+.user-list-header {
+    padding: 20px;
+    background-color: var(--background, #FDFDFF);
+    border-bottom: 2px solid var(--border, #828E82);
+}
+
+.user-list-header h1 {
+    margin: 0 0 12px 0;
+    color: var(--menu, #102E4A);
+    font-size: 1.8em;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-actions p {
+    margin: 0;
+    color: #666;
+    font-size: 0.95em;
+    flex-grow: 1;
+}
+
+/* Add User Button */
+.btn-add-user {
+    padding: 8px 16px;
+    background-color: var(--greenbutton, #82D173);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+}
+
+.btn-add-user:hover {
+    background-color: #6fb85f;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-add-user:active {
+    transform: translateY(0);
+}
+
+/* Add User Form */
+.add-user-form {
+    margin: 20px;
+    padding: 24px;
+    background-color: white;
+    border: 2px solid var(--highlight, #ED7D3A);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-user-form h3 {
+    margin: 0 0 20px 0;
+    color: var(--menu, #102E4A);
+    font-size: 1.3em;
+}
+
+.add-user-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 400px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--menu, #102E4A);
+    font-size: 0.95em;
+}
+
+.form-group input {
+    padding: 12px;
+    border: 2px solid var(--border, #828E82);
+    border-radius: 6px;
+    font-size: 1em;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--highlight, #ED7D3A);
+    box-shadow: 0 0 0 3px rgba(237, 125, 58, 0.1);
+}
+
+.form-error {
+    color: #dc3545;
+    background-color: #ffe6e6;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    border-left: 4px solid #dc3545;
+}
+
+.btn-submit {
+    padding: 12px 24px;
+    background-color: var(--highlight, #ED7D3A);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-submit:hover {
+    background-color: #d66c2a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+}
+
+/* User List Container */
+.user-list-container {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    width: 100%;
+}
+
+/* Loading and Error States */
+.loading,
+.error {
+    padding: 40px 20px;
+    text-align: center;
+    font-size: 1.1em;
+    border-radius: 8px;
+    margin: 20px;
+}
+
+.loading {
+    color: #666;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+}
+
+.error {
+    color: #dc3545;
+    background-color: #ffe6e6;
+    border: 2px solid #dc3545;
+    font-weight: 500;
+}

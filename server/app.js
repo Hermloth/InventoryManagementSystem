@@ -164,6 +164,7 @@ app.use('/api/purchases', isAuthenticated, purchasesRouter);
 app.use('/api/users', isAuthenticated, usersRouter);
 
 
+
 // Catch-all route to serve index.html for React Router (client-side)
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
